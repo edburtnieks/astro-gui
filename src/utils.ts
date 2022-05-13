@@ -1,5 +1,11 @@
+import type { AstroConfig } from "astro";
 import { existsSync, mkdirSync, copyFileSync } from "fs";
-import { DIRECTORY_LAYOUTS, DIRECTORY_PAGES, NAME } from "./constants.js";
+import {
+    DIRECTORY_LAYOUTS,
+    DIRECTORY_PAGES,
+    NAME,
+    TEMPLATES,
+} from "./constants.js";
 
 export const createDirectoryStructure = (dir: string) => {
     if (existsSync(dir)) {
@@ -9,32 +15,34 @@ export const createDirectoryStructure = (dir: string) => {
     mkdirSync(dir, { recursive: true });
 };
 
-export const copyTemplate = ({
-    from,
-    to,
-    file,
-}: {
-    from: string;
-    to: string;
-    file: string;
-}) => {
+export const copyTemplate = ({ from, to }: { from: string; to: string }) => {
     if (!existsSync(to)) {
-        copyFileSync(`${from}/${file}`, `${to}/${file}`);
+        copyFileSync(from, to);
     }
 };
 
-export const copyLayoutTemplate = (path: string, file: string) => {
+export const copyLayoutTemplate = ({
+    config,
+    file,
+}: {
+    config: AstroConfig;
+    file: string;
+}) => {
     copyTemplate({
-        from: `${path}/node_modules/${NAME}/dist/templates/layouts/${NAME}`,
-        to: DIRECTORY_LAYOUTS(path),
-        file,
+        from: `${TEMPLATES(config)}/layouts/${NAME}/${file}`,
+        to: `${DIRECTORY_LAYOUTS(config)}/${file}`,
     });
 };
 
-export const copyPageTemplate = (path: string, file: string) => {
+export const copyPageTemplate = ({
+    config,
+    file,
+}: {
+    config: AstroConfig;
+    file: string;
+}) => {
     copyTemplate({
-        from: `${path}/node_modules/${NAME}/dist/templates/pages/${NAME}`,
-        to: DIRECTORY_PAGES(path),
-        file,
+        from: `${TEMPLATES(config)}/pages/${NAME}/${file}`,
+        to: `${DIRECTORY_PAGES(config)}/${file}`,
     });
 };

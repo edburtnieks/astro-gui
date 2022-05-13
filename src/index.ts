@@ -7,27 +7,23 @@ export default function createPlugin(): AstroIntegration {
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
-                // Assign constants
-                const rootPath = config.root.pathname;
-                const srcPath = config.srcDir.pathname;
-                const pagesDir = constants.DIRECTORY_PAGES(srcPath);
-                const layoutsDir = constants.DIRECTORY_LAYOUTS(srcPath);
-
                 // Create necessary directories
-                utils.createDirectoryStructure(pagesDir);
-                utils.createDirectoryStructure(layoutsDir);
+                utils.createDirectoryStructure(
+                    constants.DIRECTORY_PAGES(config)
+                );
+                utils.createDirectoryStructure(
+                    constants.DIRECTORY_LAYOUTS(config)
+                );
 
                 // Copy layouts
                 utils.copyLayoutTemplate({
-                    rootPath,
-                    srcPath,
+                    config,
                     file: constants.TEMPLATE_LAYOUT_BASE,
                 });
 
                 // Copy pages
                 utils.copyPageTemplate({
-                    rootPath,
-                    srcPath,
+                    config,
                     file: constants.TEMPLATE_PAGE_INTEGRATIONS,
                 });
             },
