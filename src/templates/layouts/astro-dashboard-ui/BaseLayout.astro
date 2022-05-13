@@ -15,29 +15,52 @@ const { title } = Astro.props as Props;
         <title>{title ? `${title} | ` : null} Astro Dashboard UI</title>
     </head>
     <body>
-        <slot></slot>
-        <style is:global>
-            :where(*, *::before, *::after) {
-                box-sizing: border-box;
-            }
-
-            :where(body, h1, h2, h3, h4, p, ul) {
-                margin: 0;
-            }
-
-            :where(h1, h2, h3, h4) {
-                line-height: 1.1;
-            }
-
-            :where(ul) {
-                list-style-type: none;
-                padding: 0;
-            }
-
-            :where(body) {
-                font-family: sans-serif;
-                line-height: 1.5;
-            }
-        </style>
+        <slot />
     </body>
 </html>
+
+<style is:global>
+:where(*, *::before, *::after) {
+    box-sizing: border-box;
+}
+
+:where(body, h1, h2, h3, h4, p, ul) {
+    margin: 0;
+}
+
+:where(h1, h2, h3, h4) {
+    line-height: 1.1;
+}
+
+:where(ul) {
+    list-style-type: none;
+    padding: 0;
+}
+
+:where(html) {
+    scrollbar-gutter: stable;
+}
+
+:where(body) {
+    background: hsl(17 24% 94%);
+    color: hsl(257 31% 22%);
+    font-family: sans-serif;
+    line-height: 1.5;
+}
+
+:where(.container) {
+    width: min(100% - 2rem, 80rem);
+    margin-inline: auto;
+}
+
+:where(.flow > * + *) {
+    margin-block-start: var(--flow-space, 1rem);
+}
+
+:where(.card) {
+    padding: 1rem;
+    box-shadow: 0 0 #0000, 0 0 #0000, 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    background-color: hsl(240 100% 100%);
+    border-radius: 0.5rem;
+}
+</style>

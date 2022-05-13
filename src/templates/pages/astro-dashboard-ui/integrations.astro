@@ -7,30 +7,77 @@ const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIA
 ---
 
 <BaseLayout title="Integrations">
-    <h1>Integrations</h1>
-    <h2>Active integrations</h2>
-    <ul>
-        {activeIntegrations.map((integration: ActiveIntegration) => <li>{integration.name}</li>)}
-    </ul>
-    <h2>Official integrations</h2>
-    <ul>
-        {officialIntegrations.map((integration: OfficialIntegration) => (
-            <li>
-                <article>
-                    <h3>{integration.name}</h3>
-                    <ul>
-                        {integration.items.map((item: Integration) => (
-                            <li>
-                                <article>
-                                    <h4>{item.name}</h4>
-                                    {item.command ? <code>{item.command}</code> : null}
-                                    <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
-                                </article>
-                            </li>
-                        ))}
-                    </ul>
-                </article>
-            </li>
-        ))}
-    </ul>
+    <header class="container page-header">
+        <h1>Integrations</h1>
+    </header>
+    <main class="container page-content">
+        <section aria-labelledby="active-integrations-title">
+            <h2 id="active-integrations-title">Active integrations</h2>
+            <ul>
+                {activeIntegrations.map((integration: ActiveIntegration) => (
+                    <li>
+                        <article class="card">
+                            <h3>{integration.name}</h3>
+                        </article>
+                    </li>
+                ))}
+            </ul>
+        </section>
+        <section aria-labelledby="official-integrations-title">
+            <h2 id="official-integrations-title">Official integrations</h2>
+            <ul class="flow integrations-type-list">
+                {officialIntegrations.map((integration: OfficialIntegration) => (
+                    <li>
+                        <article>
+                            <h3>{integration.name}</h3>
+                            <ul class="flow integration-list">
+                                {integration.items.map((item: Integration) => (
+                                    <li>
+                                        <article class="card">
+                                            <h4>{item.name}</h4>
+                                            {item.command ? <code>{item.command}</code> : null}
+                                            <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                        </article>
+                                    </li>
+                                ))}
+                            </ul>
+                        </article>
+                    </li>
+                ))}
+            </ul>
+        </section>
+    </main>
 </BaseLayout>
+
+<style>
+:where(.page-header) {
+    padding-block: 4rem;
+}
+
+:where(.page-content) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6rem;
+    align-items: start;
+}
+
+:where(h2) {
+    color: hsl(257 27% 36%);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    font-size: 0.8rem;
+    margin-block-end: 0.5rem;
+}
+
+:where(h3) {
+    margin-block-end: 0.5rem;
+}
+
+:where(.integrations-type-list) {
+    --flow-space: 2.5rem;
+}
+
+:where(.integration-list) {
+    --flow-space: 1rem;
+}
+</style>
