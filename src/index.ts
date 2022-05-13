@@ -1,13 +1,31 @@
 import type { AstroIntegration, AstroConfig } from "astro";
 import * as api from "./api.js";
-import * as constants from "./constants.js";
+import * as constants from "./constants/index.js";
 import * as utils from "./utils.js";
 
-export type ActiveIntegration = {
+export interface ActiveIntegration {
     name: string;
-};
+}
 
-export default function createPlugin(): AstroIntegration {
+export interface Integration {
+    name: string;
+    url: string;
+    command?: string;
+}
+
+export interface OfficialIntegration {
+    type: string;
+    name: string;
+    items: Integration[];
+}
+
+export interface PluginOptions {
+    packageManager: string;
+}
+
+export default function createPlugin(
+    pluginOptions: PluginOptions = { packageManager: "npx" }
+): AstroIntegration {
     return {
         name: constants.NAME,
         hooks: {
@@ -23,6 +41,10 @@ export default function createPlugin(): AstroIntegration {
                             name: constants.PAGE_INTEGRATIONS,
                             options: {
                                 activeIntegrations: config.integrations,
+                                officialIntegrations:
+                                    constants.integrations.OFFICIAL_INTEGRATIONS(
+                                        pluginOptions
+                                    ),
                             },
                         },
                     ],

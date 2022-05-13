@@ -11,7 +11,7 @@ import {
     DIRECTORY_PAGES,
     TEMPLATES_LAYOUTS,
     TEMPLATES_PAGES,
-} from "./constants.js";
+} from "./constants/index.js";
 
 const copyTemplate = ({ from, to }: { from: string; to: string }) => {
     if (existsSync(to)) {

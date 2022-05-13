@@ -1,14 +1,36 @@
 ---
-import type { ActiveIntegration } from "astro-dashboard-ui";
+import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
 
 const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[];
+const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIAL_INTEGRATIONS]" as unknown as OfficialIntegration[];
 ---
 
 <BaseLayout title="Integrations">
     <h1>Integrations</h1>
     <h2>Active integrations</h2>
     <ul>
-        {activeIntegrations.map((integration) => <li>{integration.name}</li>)}
+        {activeIntegrations.map((integration: ActiveIntegration) => <li>{integration.name}</li>)}
+    </ul>
+    <h2>Official integrations</h2>
+    <ul>
+        {officialIntegrations.map((integration: OfficialIntegration) => (
+            <li>
+                <article>
+                    <h3>{integration.name}</h3>
+                    <ul>
+                        {integration.items.map((item: Integration) => (
+                            <li>
+                                <article>
+                                    <h4>{item.name}</h4>
+                                    {item.command ? <code>{item.command}</code> : null}
+                                    <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                </article>
+                            </li>
+                        ))}
+                    </ul>
+                </article>
+            </li>
+        ))}
     </ul>
 </BaseLayout>

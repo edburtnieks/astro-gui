@@ -6,8 +6,9 @@ import { copy } from "esbuild-plugin-copy";
 build({
     entryPoints: [
         "./src/index.ts",
-        "./src/api.js",
-        "./src/constants.ts",
+        "./src/api.ts",
+        "./src/constants/index.ts",
+        "./src/constants/integrations.ts",
         "./src/utils.ts",
     ],
     outdir: "./dist",

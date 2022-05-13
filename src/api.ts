@@ -1,11 +1,13 @@
 import type { AstroConfig, AstroIntegration } from "astro";
+import type { OfficialIntegration } from "./index.js";
 import {
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
     PAGE_INTEGRATIONS,
     PARSE_ACTIVE_INTEGRATIONS,
+    PARSE_OFFICIAL_INTEGRATIONS,
     TEMPLATE_PAGE_INTEGRATIONS,
-} from "./constants.js";
+} from "./constants/index.js";
 import {
     copyLayoutTemplate,
     createDirectoryStructure,
@@ -36,6 +38,7 @@ export const preparePageTemplates = ({
             parseIntegrationsPageTemplate({
                 config,
                 activeIntegrations: page.options.activeIntegrations,
+                officialIntegrations: page.options.officialIntegrations,
             });
         }
     });
@@ -44,20 +47,29 @@ export const preparePageTemplates = ({
 const parseIntegrationsPageTemplate = ({
     config,
     activeIntegrations = [],
+    officialIntegrations = [],
 }: {
     config: AstroConfig;
     activeIntegrations: AstroIntegration[];
+    officialIntegrations: OfficialIntegration[];
 }) => {
     parsePageContent(config, TEMPLATE_PAGE_INTEGRATIONS, (content: string) => {
+        let parsedContent: string;
         const parsedActiveIntegrations = activeIntegrations.map(
             (integration) => ({
                 name: integration.name,
             })
         );
 
-        return content.replace(
+        parsedContent = content.replace(
             PARSE_ACTIVE_INTEGRATIONS,
             JSON.stringify(parsedActiveIntegrations)
         );
+        parsedContent = parsedContent.replace(
+            PARSE_OFFICIAL_INTEGRATIONS,
+            JSON.stringify(officialIntegrations)
+        );
+
+        return parsedContent;
     });
 };
