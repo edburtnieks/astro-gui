@@ -15,7 +15,8 @@
         "email": "edburtnieks@pm.me"
     },
     "scripts": {
-        "build": "./esbuild.config.js && tsc"
+        "build": "./esbuild.config.js && tsc",
+        "prepare": "npm run build"
     },
     "keywords": [
         "astro",
