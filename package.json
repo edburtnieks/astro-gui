@@ -10,7 +10,7 @@
         "./package.json": "./package.json"
     },
     "scripts": {
-        "build": "esbuild --minify --outdir=dist src/index.ts && tsc"
+        "build": "./esbuild.config.js && tsc"
     },
     "keywords": [
         "astro",
@@ -21,6 +21,8 @@
     "devDependencies": {
         "astro": "^1.0.0-beta.27",
         "esbuild": "^0.14.39",
+        "esbuild-plugin-copy": "^1.3.0",
+        "prettier-plugin-astro": "^0.1.0-next.4",
         "typescript": "^4.6.4"
     }
 }
