@@ -13,13 +13,25 @@ const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIA
     <main class="container page-content">
         <section aria-labelledby="active-integrations-title">
             <h2 id="active-integrations-title">Active integrations</h2>
-            <ul>
+            <ul class="flow integrations-type-list">
                 {activeIntegrations.map((integration: ActiveIntegration) => (
-                    <li>
-                        <article class="card">
-                            <h3>{integration.name}</h3>
-                        </article>
-                    </li>
+                    integration.items.length ? (
+                        <li>
+                            <article>
+                                <h3>{integration.name}</h3>
+                                <ul class="flow integration-list">
+                                    {integration.items.map((item: Integration) => (
+                                        <li>
+                                            <article class="card">
+                                                <h4>{item.name}</h4>
+                                                <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                            </article>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </article>
+                        </li>
+                    ) : null
                 ))}
             </ul>
         </section>
@@ -66,15 +78,15 @@ const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIA
     text-transform: uppercase;
     letter-spacing: .05em;
     font-size: 0.8rem;
-    margin-block-end: 0.5rem;
+    margin-block-end: 1rem;
 }
 
 :where(h3) {
-    margin-block-end: 0.5rem;
+    margin-block-end: 1rem;
 }
 
 :where(.integrations-type-list) {
-    --flow-space: 2.5rem;
+    --flow-space: 4rem;
 }
 
 :where(.integration-list) {

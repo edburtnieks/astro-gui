@@ -4,7 +4,9 @@ import * as constants from "./constants/index.js";
 import * as utils from "./utils.js";
 
 export interface ActiveIntegration {
+    type: string;
     name: string;
+    items: Integration[];
 }
 
 export interface Integration {
@@ -36,18 +38,8 @@ export default function createPlugin(
                 });
                 api.preparePageTemplates({
                     config,
-                    pages: [
-                        {
-                            name: constants.PAGE_INTEGRATIONS,
-                            options: {
-                                activeIntegrations: config.integrations,
-                                officialIntegrations:
-                                    constants.integrations.OFFICIAL_INTEGRATIONS(
-                                        pluginOptions
-                                    ),
-                            },
-                        },
-                    ],
+                    pluginOptions,
+                    pages: [constants.PAGE_INTEGRATIONS],
                 });
             },
         },
