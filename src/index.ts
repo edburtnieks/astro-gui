@@ -1,47 +1,37 @@
-import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import type { AstroIntegration, AstroConfig } from "astro";
-import { PAGES_DIRECTORY, LAYOUTS_DIRECTORY, NAME } from "./constants";
+import { readFileSync, writeFileSync, existsSync } from "fs";
+import {
+    DIRECTORY_PAGES,
+    DIRECTORY_LAYOUTS,
+    NAME,
+    TEMPLATE_PAGE_INTEGRATIONS,
+    TEMPLATE_LAYOUT_BASE,
+} from "./constants";
+import {
+    copyLayoutTemplate,
+    copyPageTemplate,
+    createDirectoryStructure,
+} from "./utils";
 
 export default function createPlugin(): AstroIntegration {
     return {
         name: NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
-                const pagesDir = PAGES_DIRECTORY(config.srcDir.pathname);
-                const layoutsDir = LAYOUTS_DIRECTORY(config.srcDir.pathname);
+                // Assign constants
+                const path = config.srcDir.pathname;
+                const pagesDir = DIRECTORY_PAGES(path);
+                const layoutsDir = DIRECTORY_LAYOUTS(path);
 
                 // Create necessary directories
-                if (!existsSync(pagesDir)) {
-                    mkdirSync(pagesDir, { recursive: true });
-                }
+                createDirectoryStructure(pagesDir);
+                createDirectoryStructure(layoutsDir);
 
-                if (!existsSync(layoutsDir)) {
-                    mkdirSync(layoutsDir, { recursive: true });
-                }
+                // Copy layouts
+                copyLayoutTemplate(path, TEMPLATE_LAYOUT_BASE);
 
-                // Layouts
-                if (!existsSync(`${layoutsDir}/BaseLayout.astro`)) {
-                    let parsedBaseLayout: string;
-                    parsedBaseLayout = readFileSync(
-                        `${config.root.pathname}/node_modules/${NAME}/dist/templates/layouts/${NAME}/BaseLayout.astro`
-                    ).toString();
-                    writeFileSync(
-                        `${layoutsDir}/BaseLayout.astro`,
-                        parsedBaseLayout
-                    );
-                }
-
-                // Pages
-                if (!existsSync(`${pagesDir}/integrations.astro`)) {
-                    let parsedIntegrationsPageContent: string;
-                    parsedIntegrationsPageContent = readFileSync(
-                        `${config.root.pathname}/node_modules/${NAME}/dist/templates/pages/${NAME}/integrations.astro`
-                    ).toString();
-                    writeFileSync(
-                        `${pagesDir}/integrations.astro`,
-                        parsedIntegrationsPageContent
-                    );
-                }
+                // Copy pages
+                copyPageTemplate(path, TEMPLATE_PAGE_INTEGRATIONS);
             },
         },
     };
