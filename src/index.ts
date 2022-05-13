@@ -1,43 +1,44 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
 import type { AstroIntegration, AstroConfig } from "astro";
+import { PAGES_DIRECTORY, LAYOUTS_DIRECTORY, NAME } from "./constants";
 
 export default function createPlugin(): AstroIntegration {
     return {
-        name: "astro-dashboard-ui",
+        name: NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
-                // Create necessary directories
-                const pagesDirectory = `${config.srcDir.pathname}/pages/astro-dashboard-ui`;
-                const layoutsDirectory = `${config.srcDir.pathname}/layouts/astro-dashboard-ui`;
+                const pagesDir = PAGES_DIRECTORY(config.srcDir.pathname);
+                const layoutsDir = LAYOUTS_DIRECTORY(config.srcDir.pathname);
 
-                if (!existsSync(pagesDirectory)) {
-                    mkdirSync(pagesDirectory, { recursive: true });
+                // Create necessary directories
+                if (!existsSync(pagesDir)) {
+                    mkdirSync(pagesDir, { recursive: true });
                 }
 
-                if (!existsSync(layoutsDirectory)) {
-                    mkdirSync(layoutsDirectory, { recursive: true });
+                if (!existsSync(layoutsDir)) {
+                    mkdirSync(layoutsDir, { recursive: true });
                 }
 
                 // Layouts
-                if (!existsSync(`${layoutsDirectory}/BaseLayout.astro`)) {
+                if (!existsSync(`${layoutsDir}/BaseLayout.astro`)) {
                     let parsedBaseLayout: string;
                     parsedBaseLayout = readFileSync(
-                        `${config.root.pathname}/node_modules/astro-dashboard-ui/dist/templates/layouts/astro-dashboard-ui/BaseLayout.astro`
+                        `${config.root.pathname}/node_modules/${NAME}/dist/templates/layouts/${NAME}/BaseLayout.astro`
                     ).toString();
                     writeFileSync(
-                        `${layoutsDirectory}/BaseLayout.astro`,
+                        `${layoutsDir}/BaseLayout.astro`,
                         parsedBaseLayout
                     );
                 }
 
                 // Pages
-                if (!existsSync(`${pagesDirectory}/integrations.astro`)) {
+                if (!existsSync(`${pagesDir}/integrations.astro`)) {
                     let parsedIntegrationsPageContent: string;
                     parsedIntegrationsPageContent = readFileSync(
-                        `${config.root.pathname}/node_modules/astro-dashboard-ui/dist/templates/pages/astro-dashboard-ui/integrations.astro`
+                        `${config.root.pathname}/node_modules/${NAME}/dist/templates/pages/${NAME}/integrations.astro`
                     ).toString();
                     writeFileSync(
-                        `${pagesDirectory}/integrations.astro`,
+                        `${pagesDir}/integrations.astro`,
                         parsedIntegrationsPageContent
                     );
                 }
