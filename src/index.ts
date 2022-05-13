@@ -20,7 +20,7 @@ export interface OfficialIntegration {
 }
 
 export interface PluginOptions {
-    packageManager: string;
+    packageManager: "npx" | "yarn" | "pnpx";
 }
 
 export default function createPlugin(
