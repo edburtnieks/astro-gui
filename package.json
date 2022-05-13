@@ -7,6 +7,8 @@
     "types": "./dist/index.d.ts",
     "exports": {
         ".": "./dist/index.js",
+        "./constants": "./dist/constants.js",
+        "./utils": "./dist/utils.js",
         "./package.json": "./package.json"
     },
     "repository": "github:edburtnieks/astro-dashboard-ui",
