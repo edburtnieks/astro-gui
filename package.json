@@ -7,6 +7,7 @@
     "types": "./dist/index.d.ts",
     "exports": {
         ".": "./dist/index.js",
+        "./api": "./dist/api.js",
         "./constants": "./dist/constants.js",
         "./utils": "./dist/utils.js",
         "./package.json": "./package.json"
@@ -27,10 +28,10 @@
     "author": "Edgars Burtnieks <edburtnieks@pm.me>",
     "license": "MIT",
     "devDependencies": {
+        "@types/node": "^17.0.33",
         "astro": "^1.0.0-beta.27",
         "esbuild": "^0.14.39",
         "esbuild-plugin-copy": "^1.3.0",
-        "prettier-plugin-astro": "^0.1.0-next.4",
         "typescript": "^4.6.4"
     }
 }

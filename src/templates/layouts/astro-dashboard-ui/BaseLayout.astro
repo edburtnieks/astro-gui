@@ -21,12 +21,22 @@ const { title } = Astro.props as Props;
                 box-sizing: border-box;
             }
 
-            :where(body, h1) {
+            :where(body, h1, h2, ul) {
                 margin: 0;
+            }
+
+            :where(h1, h2) {
+                line-height: 1.1;
+            }
+
+            :where(ul) {
+                list-style-type: none;
+                padding: 0;
             }
 
             :where(body) {
                 font-family: sans-serif;
+                line-height: 1.5;
             }
         </style>
     </body>

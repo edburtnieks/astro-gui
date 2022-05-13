@@ -1,7 +1,14 @@
 ---
+import type { ActiveIntegration } from "astro-dashboard-ui";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
+
+const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[];
 ---
 
 <BaseLayout title="Integrations">
     <h1>Integrations</h1>
+    <h2>Active integrations</h2>
+    <ul>
+        {activeIntegrations.map((integration) => <li>{integration.name}</li>)}
+    </ul>
 </BaseLayout>

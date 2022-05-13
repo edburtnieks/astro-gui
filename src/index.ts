@@ -1,34 +1,35 @@
 import type { AstroIntegration, AstroConfig } from "astro";
+import * as api from "./api.js";
 import * as constants from "./constants.js";
 import * as utils from "./utils.js";
+
+export type ActiveIntegration = {
+    name: string;
+};
 
 export default function createPlugin(): AstroIntegration {
     return {
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
-                // Create necessary directories
-                utils.createDirectoryStructure(
-                    constants.DIRECTORY_PAGES(config)
-                );
-                utils.createDirectoryStructure(
-                    constants.DIRECTORY_LAYOUTS(config)
-                );
-
-                // Copy layouts
-                utils.copyLayoutTemplate({
+                api.prepareLayoutTemplates({
                     config,
-                    file: constants.TEMPLATE_LAYOUT_BASE,
+                    files: [constants.TEMPLATE_LAYOUT_BASE],
                 });
-
-                // Copy pages
-                utils.copyPageTemplate({
+                api.preparePageTemplates({
                     config,
-                    file: constants.TEMPLATE_PAGE_INTEGRATIONS,
+                    pages: [
+                        {
+                            name: constants.PAGE_INTEGRATIONS,
+                            options: {
+                                activeIntegrations: config.integrations,
+                            },
+                        },
+                    ],
                 });
             },
         },
     };
 }
 
-export { constants, utils };
+export { constants, utils, api };
