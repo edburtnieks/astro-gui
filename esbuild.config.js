@@ -4,8 +4,8 @@ import { build } from "esbuild";
 import { copy } from "esbuild-plugin-copy";
 
 build({
-    entryPoints: ["./src/index.ts"],
-    outfile: "./dist/index.js",
+    entryPoints: ["./src/index.ts", "./src/constants.ts", "./src/utils.ts"],
+    outdir: "./dist",
     platform: "node",
     target: "node16",
     minify: true,
