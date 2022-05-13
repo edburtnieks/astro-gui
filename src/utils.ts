@@ -1,4 +1,5 @@
-import type { AstroConfig } from "astro";
+import type { AstroConfig, AstroIntegration } from "astro";
+import type { ActiveIntegration, OfficialIntegration } from "./index.js";
 import {
     existsSync,
     mkdirSync,
@@ -9,6 +10,7 @@ import {
 import {
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
+    NAME,
     TEMPLATES_LAYOUTS,
     TEMPLATES_PAGES,
 } from "./constants/index.js";
@@ -56,4 +58,38 @@ export const parsePageContent = async (
     ).toString();
     const parsedContent = await cb(content);
     writeFileSync(`${DIRECTORY_PAGES(config)}/${file}`, parsedContent);
+};
+
+export const parseActiveIntegrations = (
+    activeIntegrations: AstroIntegration[],
+    officialIntegrations: OfficialIntegration[]
+): ActiveIntegration[] => {
+    const activeIntegrationsByType: ActiveIntegration[] = [
+        { type: "framework", name: "Frameworks", items: [] },
+        { type: "additional", name: "Additional", items: [] },
+        { type: "adapter", name: "Adapters", items: [] },
+    ];
+    const parsedActiveIntegrations = activeIntegrations.filter(
+        (integration) => integration.name !== NAME
+    );
+
+    officialIntegrations.forEach((officialIntegration) => {
+        officialIntegration.items.forEach((officialIntegrationItem) => {
+            parsedActiveIntegrations.forEach((activeIntegration) => {
+                if (officialIntegrationItem.name === activeIntegration.name) {
+                    activeIntegrationsByType
+                        .find(
+                            (element) =>
+                                element.type === officialIntegration.type
+                        )!
+                        .items.push({
+                            name: officialIntegrationItem.name,
+                            url: officialIntegrationItem.url,
+                        });
+                }
+            });
+        });
+    });
+
+    return activeIntegrationsByType;
 };

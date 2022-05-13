@@ -1,13 +1,8 @@
 import type { AstroConfig, AstroIntegration } from "astro";
-import type {
-    ActiveIntegration,
-    OfficialIntegration,
-    PluginOptions,
-} from "./index.js";
+import type { OfficialIntegration, PluginOptions } from "./index.js";
 import {
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
-    NAME,
     PAGE_INTEGRATIONS,
     PARSE_ACTIVE_INTEGRATIONS,
     PARSE_OFFICIAL_INTEGRATIONS,
@@ -17,6 +12,7 @@ import { OFFICIAL_INTEGRATIONS } from "./constants/integrations.js";
 import {
     copyLayoutTemplate,
     createDirectoryStructure,
+    parseActiveIntegrations,
     parsePageContent,
 } from "./utils.js";
 
@@ -63,38 +59,14 @@ const parseIntegrationsPageTemplate = ({
 }) => {
     parsePageContent(config, TEMPLATE_PAGE_INTEGRATIONS, (content: string) => {
         let parsedContent: string;
-        const activeIntegrationsByType: ActiveIntegration[] = [
-            { type: "framework", name: "Frameworks", items: [] },
-            { type: "additional", name: "Additional", items: [] },
-            { type: "adapter", name: "Adapters", items: [] },
-        ];
-        const parsedActiveIntegrations = activeIntegrations.filter(
-            (integration) => integration.name !== NAME
+        const parsedActiveIntegrations = parseActiveIntegrations(
+            activeIntegrations,
+            officialIntegrations
         );
-
-        officialIntegrations.forEach((officialIntegration) => {
-            officialIntegration.items.forEach((officialIntegrationItem) => {
-                parsedActiveIntegrations.forEach((activeIntegration) => {
-                    if (
-                        officialIntegrationItem.name === activeIntegration.name
-                    ) {
-                        activeIntegrationsByType
-                            .find(
-                                (element) =>
-                                    element.type === officialIntegration.type
-                            )!
-                            .items.push({
-                                name: officialIntegrationItem.name,
-                                url: officialIntegrationItem.url,
-                            });
-                    }
-                });
-            });
-        });
 
         parsedContent = content.replace(
             PARSE_ACTIVE_INTEGRATIONS,
-            JSON.stringify(activeIntegrationsByType)
+            JSON.stringify(parsedActiveIntegrations)
         );
         parsedContent = parsedContent.replace(
             PARSE_OFFICIAL_INTEGRATIONS,
