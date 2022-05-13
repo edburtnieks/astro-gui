@@ -1,12 +1,14 @@
 {
     "name": "astro-dashboard-ui",
-    "version": "0.0.7",
+    "version": "0.0.6",
     "description": "Dashboard UI for Astro",
     "type": "module",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
     "exports": {
         ".": "./dist/index.js",
+        "./constants": "./dist/constants.js",
+        "./utils": "./dist/utils.js",
         "./package.json": "./package.json"
     },
     "repository": "github:edburtnieks/astro-dashboard-ui",
