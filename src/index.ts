@@ -1,6 +1,6 @@
 import type { AstroIntegration, AstroConfig } from "astro";
-import * as constants from "./constants";
-import * as utils from "./utils";
+import * as constants from "./constants.js";
+import * as utils from "./utils.js";
 
 export default function createPlugin(): AstroIntegration {
     return {

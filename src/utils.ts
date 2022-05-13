@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, copyFileSync } from "fs";
-import { DIRECTORY_LAYOUTS, DIRECTORY_PAGES, NAME } from "./constants";
+import { DIRECTORY_LAYOUTS, DIRECTORY_PAGES, NAME } from "./constants.js";
 
 export const createDirectoryStructure = (dir: string) => {
     if (existsSync(dir)) {
