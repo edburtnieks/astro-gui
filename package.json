@@ -9,6 +9,11 @@
         ".": "./dist/index.js",
         "./package.json": "./package.json"
     },
+    "repository": "github:edburtnieks/astro-dashboard-ui",
+    "bugs": {
+        "url": "https://github.com/edburtnieks/astro-dashboard-ui/issues",
+        "email": "edburtnieks@pm.me"
+    },
     "scripts": {
         "build": "./esbuild.config.js && tsc"
     },
