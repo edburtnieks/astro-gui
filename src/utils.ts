@@ -49,10 +49,6 @@ export const parsePageContent = async (
     file: string,
     cb: Function
 ) => {
-    if (existsSync(`${DIRECTORY_PAGES(config)}/${file}`)) {
-        return;
-    }
-
     const content = readFileSync(
         `${TEMPLATES_PAGES(config)}/${file}`
     ).toString();
@@ -86,6 +82,15 @@ export const parseActiveIntegrations = (
                             name: officialIntegrationItem.name,
                             url: officialIntegrationItem.url,
                         });
+
+                    officialIntegrations
+                        .find(
+                            (element) =>
+                                element.type === officialIntegration.type
+                        )!
+                        .items.find(
+                            (a) => a.name === officialIntegrationItem.name
+                        )!.active = true;
                 }
             });
         });

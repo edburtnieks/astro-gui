@@ -13,6 +13,8 @@ export interface Integration {
     name: string;
     url: string;
     command?: string;
+    commandText?: string;
+    active?: boolean;
 }
 
 export interface OfficialIntegration {
