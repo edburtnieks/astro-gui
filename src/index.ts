@@ -48,6 +48,10 @@ export default function createPlugin(
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
+                api.prepareComponentTemplates({
+                    config,
+                    files: [constants.TEMPLATE_COMPONENT_ADD_BUTTON],
+                });
                 api.prepareLayoutTemplates({
                     config,
                     files: [constants.TEMPLATE_LAYOUT_BASE],

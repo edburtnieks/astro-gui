@@ -9,9 +9,11 @@ import {
     writeFileSync,
 } from "fs";
 import {
+    DIRECTORY_COMPONENTS,
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
     NAME,
+    TEMPLATES_COMPONENTS,
     TEMPLATES_LAYOUTS,
     TEMPLATES_PAGES,
 } from "./constants/index.js";
@@ -50,6 +52,19 @@ export const createDirectoryStructure = (dir: string) => {
     }
 
     mkdirSync(dir, { recursive: true });
+};
+
+export const copyComponentTemplate = ({
+    config,
+    file,
+}: {
+    config: AstroConfig;
+    file: string;
+}) => {
+    copyTemplate({
+        from: `${TEMPLATES_COMPONENTS(config)}/${file}`,
+        to: `${DIRECTORY_COMPONENTS(config)}/${file}`,
+    });
 };
 
 export const copyLayoutTemplate = ({

@@ -1,6 +1,7 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { OfficialIntegration, ParsedPluginOptions } from "./index.js";
 import {
+    DIRECTORY_COMPONENTS,
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
     PAGE_INTEGRATIONS,
@@ -10,11 +11,23 @@ import {
 } from "./constants/index.js";
 import { OFFICIAL_INTEGRATIONS } from "./constants/integrations.js";
 import {
+    copyComponentTemplate,
     copyLayoutTemplate,
     createDirectoryStructure,
     parseActiveIntegrations,
     parsePageContent,
 } from "./utils.js";
+
+export const prepareComponentTemplates = ({
+    config,
+    files,
+}: {
+    config: AstroConfig;
+    files: string[];
+}) => {
+    createDirectoryStructure(DIRECTORY_COMPONENTS(config));
+    files.forEach((file) => copyComponentTemplate({ config, file }));
+};
 
 export const prepareLayoutTemplates = ({
     config,

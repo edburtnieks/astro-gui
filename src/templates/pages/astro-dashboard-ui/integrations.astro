@@ -1,10 +1,13 @@
 ---
 import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
 import { execaCommand } from "execa";
+import { AddButton } from "../../components/astro-dashboard-ui/AddButton.tsx";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
 
 const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[];
 const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIAL_INTEGRATIONS]" as unknown as OfficialIntegration[];
+
+let message: string | null = null;
 
 if (Astro.request.method === "POST") {
     // Get command from the request, e.g. `react`, `tailwind`
@@ -14,13 +17,15 @@ if (Astro.request.method === "POST") {
     // Execute the `[npx|pnpx|yarn] astro add` command
     await execaCommand(command, { stdio: "inherit" });
 
-    // Refresh the page
-    return Response.redirect(Astro.request.headers.get("referer"));
+    // Refresh the page and add message notification
+    new Response(null, { status: 200 });
+    message = "Restart the server to update the dashboard"
 }
 ---
 
 <BaseLayout title="Integrations">
     <header class="container page-header">
+        {message ? <p>{message}</p> : null}
         <h1>Integrations</h1>
     </header>
     <main class="container page-content">
@@ -66,7 +71,7 @@ if (Astro.request.method === "POST") {
                                             ) : (
                                                 item.command ? (
                                                     <form method="POST">
-                                                        <button type="submit" name="command" value={item.command}>Add</button>
+                                                        <AddButton client:idle command={item.command}>Add</AddButton>
                                                     </form>
                                                 ) : null
                                             )}
