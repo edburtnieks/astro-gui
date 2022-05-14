@@ -119,5 +119,3 @@ export const parseActiveIntegrations = (
 
     return activeIntegrationsByType;
 };
-
-export { preferredPM };
