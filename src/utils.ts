@@ -1,6 +1,6 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { ActiveIntegration, OfficialIntegration } from "./index.js";
-import { detect } from "detect-package-manager/dist/index.js";
+import preferredPM from "preferred-pm";
 import {
     existsSync,
     mkdirSync,
@@ -31,7 +31,9 @@ export const getPackageManager = async (): Promise<PackageManager> => {
         yarn: "yarn",
     };
 
-    return packageManager[await detect()] ?? packageManager.npm;
+    return packageManager[
+        await preferredPM(process.cwd()).then((pm) => pm?.name ?? "npm")
+    ];
 };
 
 const copyTemplate = ({ from, to }: { from: string; to: string }) => {
