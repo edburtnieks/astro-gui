@@ -1,10 +1,9 @@
-import type { OfficialIntegration } from "../index.js";
-import { PluginOptions } from "../index.js";
+import type { OfficialIntegration, ParsedPluginOptions } from "../index.js";
 
 export const OFFICIAL_INTEGRATION_BASE_URL =
     "https://github.com/withastro/astro/tree/main/packages/integrations";
 export const OFFICIAL_INTEGRATIONS = (
-    options: PluginOptions
+    options: ParsedPluginOptions
 ): OfficialIntegration[] => {
     return [
         {

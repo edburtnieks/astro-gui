@@ -1,5 +1,5 @@
 import type { AstroConfig, AstroIntegration } from "astro";
-import type { OfficialIntegration, PluginOptions } from "./index.js";
+import type { OfficialIntegration, ParsedPluginOptions } from "./index.js";
 import {
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
@@ -33,7 +33,7 @@ export const preparePageTemplates = ({
     pages,
 }: {
     config: AstroConfig;
-    pluginOptions: PluginOptions;
+    pluginOptions: ParsedPluginOptions;
     pages: string[];
 }) => {
     createDirectoryStructure(DIRECTORY_PAGES(config));
