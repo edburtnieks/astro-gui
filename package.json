@@ -24,7 +24,7 @@
     ],
     "author": "Edgars Burtnieks <edburtnieks@pm.me>",
     "license": "MIT",
-    "devDependencies": {
+    "dependencies": {
         "@types/node": "^17.0.33",
         "astro": "^1.0.0-beta.28",
         "esbuild": "^0.14.39",
