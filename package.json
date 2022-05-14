@@ -32,6 +32,7 @@
         "typescript": "^4.6.4"
     },
     "dependencies": {
+        "execa": "^6.1.0",
         "preferred-pm": "^3.0.3"
     }
 }

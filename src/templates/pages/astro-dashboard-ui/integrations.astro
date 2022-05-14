@@ -1,6 +1,7 @@
 ---
 import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
-import { spawnSync, spawn } from "child_process";
+import { spawn } from "child_process";
+import { execaCommand } from "execa";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
 
 const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[];
@@ -12,23 +13,21 @@ if (Astro.request.method === "POST") {
     const command = data.get("command")!.toString();
 
     // Execute the `astro add` command
-    await spawnSync("npx", ["astro", "add", command], {
-        stdio: "inherit",
-    });
+    await execaCommand(command, { stdio: "inherit" });
 
     // Restart the server
     // Source - https://gist.github.com/silverwind/d0802f7a919ae86ff25e
-    (function main() {
-        if (process.env.process_restarting) {
-            delete process.env.process_restarting;
-            setTimeout(main, 1000);
-            return;
-        }
-        spawn(process.argv[0], process.argv.slice(1), {
-            env: { process_restarting: "1" },
-            stdio: "ignore",
-        }).unref();
-    })();
+    setTimeout(() => {
+        process.on("exit", () => {
+            spawn(process.argv.shift() as string, process.argv, {
+                cwd: process.cwd(),
+                detached: true,
+                stdio: "inherit"
+            });
+        });
+
+        process.exit();
+    }, 1000);
 
     // Refresh the page
     return Response.redirect(Astro.request.headers.get("referer"));
@@ -76,7 +75,7 @@ if (Astro.request.method === "POST") {
                                     <li>
                                         <article class="card">
                                             <h4>{item.name}</h4>
-                                            {item.commandText ? <code>{item.commandText}</code> : null}
+                                            {item.command ? <code>{item.command}</code> : null}
                                             {item.active ? (
                                                 <p>Added</p>
                                             ) : (
