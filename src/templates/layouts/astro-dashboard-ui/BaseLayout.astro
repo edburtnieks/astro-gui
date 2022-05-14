@@ -63,4 +63,8 @@ const { title } = Astro.props as Props;
     background-color: hsl(240 100% 100%);
     border-radius: 0.5rem;
 }
+
+:where(.card[data-status="active"]) {
+    background-color: hsl(116 27% 72%);
+}
 </style>

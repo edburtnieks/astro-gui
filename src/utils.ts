@@ -145,6 +145,11 @@ export const parseActiveIntegrations = (
                 }
             });
         });
+
+        // Active integrations first
+        officialIntegration.items.sort(
+            (a, b) => Number(b.active) - Number(a.active)
+        );
     });
 
     return activeIntegrationsByType;
