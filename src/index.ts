@@ -24,21 +24,27 @@ export interface OfficialIntegration {
     items: Integration[];
 }
 
-export interface PluginOptions {
-    packageManager?: PackageManager;
-}
+export type PluginOptions =
+    | {
+          packageManager?: PackageManager;
+      }
+    | undefined;
 
 export default function createPlugin(
     pluginOptions?: PluginOptions
 ): AstroIntegration {
-    let parsedPluginOptions: PluginOptions;
+    let parsedPluginOptions: PluginOptions = pluginOptions;
 
-    utils.getPackageManager().then((packageManager: PackageManager) => {
-        parsedPluginOptions = {
-            ...pluginOptions,
-            packageManager: pluginOptions?.packageManager ?? packageManager,
-        };
-    });
+    parsedPluginOptions = {
+        packageManager: pluginOptions?.packageManager ?? "npx",
+    };
+
+    // utils.getPackageManager().then((packageManager: PackageManager) => {
+    //     parsedPluginOptions = {
+    //         ...pluginOptions,
+    //         packageManager: pluginOptions?.packageManager ?? packageManager,
+    //     };
+    // });
 
     return {
         name: constants.NAME,
