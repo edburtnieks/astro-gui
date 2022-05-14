@@ -1,5 +1,4 @@
 import type { AstroIntegration, AstroConfig } from "astro";
-import type { PackageManager } from "./utils.js";
 import * as api from "./api.js";
 import * as constants from "./constants/index.js";
 import * as utils from "./utils.js";
@@ -24,28 +23,13 @@ export interface OfficialIntegration {
     items: Integration[];
 }
 
-export type PluginOptions =
-    | {
-          packageManager?: PackageManager;
-      }
-    | undefined;
+export interface PluginOptions {
+    packageManager: "npx" | "yarn" | "pnpx";
+}
 
 export default function createPlugin(
-    pluginOptions?: PluginOptions
+    pluginOptions: PluginOptions = { packageManager: "npx" }
 ): AstroIntegration {
-    let parsedPluginOptions: PluginOptions = pluginOptions;
-
-    parsedPluginOptions = {
-        packageManager: pluginOptions?.packageManager ?? "npx",
-    };
-
-    // utils.getPackageManager().then((packageManager: PackageManager) => {
-    //     parsedPluginOptions = {
-    //         ...pluginOptions,
-    //         packageManager: pluginOptions?.packageManager ?? packageManager,
-    //     };
-    // });
-
     return {
         name: constants.NAME,
         hooks: {
@@ -56,7 +40,7 @@ export default function createPlugin(
                 });
                 api.preparePageTemplates({
                     config,
-                    pluginOptions: parsedPluginOptions,
+                    pluginOptions,
                     pages: [constants.PAGE_INTEGRATIONS],
                 });
             },
