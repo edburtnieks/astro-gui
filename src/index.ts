@@ -48,6 +48,11 @@ export default function createPlugin(
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
+                api.prepareDataTemplates({
+                    config,
+                    pluginOptions: parsedPluginOptions,
+                    files: [constants.DATA_INTEGRATIONS],
+                });
                 api.prepareComponentTemplates({
                     config,
                     files: [constants.TEMPLATE_COMPONENT_ADD_BUTTON],
@@ -58,8 +63,7 @@ export default function createPlugin(
                 });
                 api.preparePageTemplates({
                     config,
-                    pluginOptions: parsedPluginOptions,
-                    pages: [constants.PAGE_INTEGRATIONS],
+                    files: [constants.TEMPLATE_PAGE_INTEGRATIONS],
                 });
             },
         },

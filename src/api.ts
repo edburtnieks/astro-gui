@@ -1,22 +1,45 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { OfficialIntegration, ParsedPluginOptions } from "./index.js";
 import {
+    DATA_INTEGRATIONS,
     DIRECTORY_COMPONENTS,
+    DIRECTORY_DATA,
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
-    PAGE_INTEGRATIONS,
     PARSE_ACTIVE_INTEGRATIONS,
     PARSE_OFFICIAL_INTEGRATIONS,
-    TEMPLATE_PAGE_INTEGRATIONS,
+    TEMPLATE_DATA_INTEGRATIONS,
 } from "./constants/index.js";
 import { OFFICIAL_INTEGRATIONS } from "./constants/integrations.js";
 import {
     copyComponentTemplate,
     copyLayoutTemplate,
+    copyPageTemplate,
     createDirectoryStructure,
     parseActiveIntegrations,
-    parsePageContent,
+    parseDataContent,
 } from "./utils.js";
+
+export const prepareDataTemplates = ({
+    config,
+    pluginOptions,
+    files,
+}: {
+    config: AstroConfig;
+    pluginOptions: ParsedPluginOptions;
+    files: string[];
+}) => {
+    createDirectoryStructure(DIRECTORY_DATA(config));
+    files.forEach((file) => {
+        if (file === DATA_INTEGRATIONS) {
+            parseIntegrationsDataTemplate({
+                config,
+                activeIntegrations: config.integrations,
+                officialIntegrations: OFFICIAL_INTEGRATIONS(pluginOptions),
+            });
+        }
+    });
+};
 
 export const prepareComponentTemplates = ({
     config,
@@ -42,26 +65,16 @@ export const prepareLayoutTemplates = ({
 
 export const preparePageTemplates = ({
     config,
-    pluginOptions,
-    pages,
+    files,
 }: {
     config: AstroConfig;
-    pluginOptions: ParsedPluginOptions;
-    pages: string[];
+    files: string[];
 }) => {
     createDirectoryStructure(DIRECTORY_PAGES(config));
-    pages.forEach((page) => {
-        if (page === PAGE_INTEGRATIONS) {
-            parseIntegrationsPageTemplate({
-                config,
-                activeIntegrations: config.integrations,
-                officialIntegrations: OFFICIAL_INTEGRATIONS(pluginOptions),
-            });
-        }
-    });
+    files.forEach((file) => copyPageTemplate({ config, file }));
 };
 
-const parseIntegrationsPageTemplate = ({
+const parseIntegrationsDataTemplate = ({
     config,
     activeIntegrations = [],
     officialIntegrations = [],
@@ -70,7 +83,7 @@ const parseIntegrationsPageTemplate = ({
     activeIntegrations: AstroIntegration[];
     officialIntegrations: OfficialIntegration[];
 }) => {
-    parsePageContent(config, TEMPLATE_PAGE_INTEGRATIONS, (content: string) => {
+    parseDataContent(config, TEMPLATE_DATA_INTEGRATIONS, (content: string) => {
         let parsedContent: string;
         const parsedActiveIntegrations = parseActiveIntegrations(
             activeIntegrations,

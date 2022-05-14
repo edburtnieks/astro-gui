@@ -10,10 +10,12 @@ import {
 } from "fs";
 import {
     DIRECTORY_COMPONENTS,
+    DIRECTORY_DATA,
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
     NAME,
     TEMPLATES_COMPONENTS,
+    TEMPLATES_DATA,
     TEMPLATES_LAYOUTS,
     TEMPLATES_PAGES,
 } from "./constants/index.js";
@@ -54,6 +56,18 @@ export const createDirectoryStructure = (dir: string) => {
     mkdirSync(dir, { recursive: true });
 };
 
+export const parseDataContent = async (
+    config: AstroConfig,
+    file: string,
+    cb: Function
+) => {
+    const content = readFileSync(
+        `${TEMPLATES_DATA(config)}/${file}`
+    ).toString();
+    const parsedContent = await cb(content);
+    writeFileSync(`${DIRECTORY_DATA(config)}/${file}`, parsedContent);
+};
+
 export const copyComponentTemplate = ({
     config,
     file,
@@ -80,16 +94,17 @@ export const copyLayoutTemplate = ({
     });
 };
 
-export const parsePageContent = async (
-    config: AstroConfig,
-    file: string,
-    cb: Function
-) => {
-    const content = readFileSync(
-        `${TEMPLATES_PAGES(config)}/${file}`
-    ).toString();
-    const parsedContent = await cb(content);
-    writeFileSync(`${DIRECTORY_PAGES(config)}/${file}`, parsedContent);
+export const copyPageTemplate = ({
+    config,
+    file,
+}: {
+    config: AstroConfig;
+    file: string;
+}) => {
+    copyTemplate({
+        from: `${TEMPLATES_PAGES(config)}/${file}`,
+        to: `${DIRECTORY_PAGES(config)}/${file}`,
+    });
 };
 
 export const parseActiveIntegrations = (

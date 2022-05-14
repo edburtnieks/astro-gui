@@ -1,11 +1,9 @@
 ---
 import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
 import { execaCommand } from "execa";
+import { activeIntegrations, officialIntegrations } from "../../data/astro-dashboard-ui/integrations.ts";
 import { AddButton } from "../../components/astro-dashboard-ui/AddButton.tsx";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
-
-const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[];
-const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIAL_INTEGRATIONS]" as unknown as OfficialIntegration[];
 
 let message: string | null = null;
 
