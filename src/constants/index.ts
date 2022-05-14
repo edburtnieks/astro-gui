@@ -27,6 +27,7 @@ export const DIRECTORY_PAGES = (config: AstroConfig) =>
     `${config.srcDir.pathname}pages/${NAME}`;
 
 export const TEMPLATE_DATA_INTEGRATIONS = "integrations.ts";
+export const TEMPLATE_COMPONENT_COPY_BUTTON = "CopyButton.tsx";
 export const TEMPLATE_COMPONENT_ADD_BUTTON = "AddButton.tsx";
 export const TEMPLATE_LAYOUT_BASE = "BaseLayout.astro";
 export const TEMPLATE_PAGE_INTEGRATIONS = "integrations.astro";

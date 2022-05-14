@@ -2,6 +2,7 @@
 import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
 import { execaCommand } from "execa";
 import { activeIntegrations, officialIntegrations } from "../../data/astro-dashboard-ui/integrations.ts";
+import { CopyButton } from "../../components/astro-dashboard-ui/CopyButton.tsx";
 import { AddButton } from "../../components/astro-dashboard-ui/AddButton.tsx";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
 
@@ -38,7 +39,7 @@ if (Astro.request.method === "POST") {
                                 <ul class="flow integration-list">
                                     {integration.items.map((item: Integration) => (
                                         <li>
-                                            <article class="card">
+                                            <article class="card card-header">
                                                 <h4>{item.name}</h4>
                                                 <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
                                             </article>
@@ -62,19 +63,22 @@ if (Astro.request.method === "POST") {
                                 {integration.items.map((item: Integration) => (
                                     <li>
                                         <article class="card" data-status={item.active ? 'active' : undefined}>
-                                            {item.active ? <p>Added</p> : null}
-                                            <h4>{item.name}</h4>
+                                            <header>
+                                                <h4>{item.name}</h4>
+                                                <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                            </header>
                                             {item.active ? (
                                                 null
                                             ) : (
                                                 item.command ? (
-                                                    <code>{item.command}</code>
+                                                    <CopyButton client:idle command={item.command}>
+                                                        {item.command}
+                                                    </CopyButton>
                                                     <form method="POST">
                                                         <AddButton client:idle command={item.command}>Add</AddButton>
                                                     </form>
                                                 ) : null
                                             )}
-                                            <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
                                         </article>
                                     </li>
                                 ))}
@@ -110,8 +114,8 @@ if (Astro.request.method === "POST") {
 
 :where(.integrations-type-list) {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 18.75rem), 1fr));
+    gap: 2rem;
     align-items: start;
 }
 

@@ -55,7 +55,10 @@ export default function createPlugin(
                 });
                 api.prepareComponentTemplates({
                     config,
-                    files: [constants.TEMPLATE_COMPONENT_ADD_BUTTON],
+                    files: [
+                        constants.TEMPLATE_COMPONENT_COPY_BUTTON,
+                        constants.TEMPLATE_COMPONENT_ADD_BUTTON,
+                    ],
                 });
                 api.prepareLayoutTemplates({
                     config,
