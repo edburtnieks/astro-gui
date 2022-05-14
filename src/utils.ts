@@ -1,6 +1,6 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { ActiveIntegration, OfficialIntegration } from "./index.js";
-import { detect } from "detect-package-manager";
+import { detect } from "detect-package-manager/dist/index.js";
 import {
     existsSync,
     mkdirSync,
