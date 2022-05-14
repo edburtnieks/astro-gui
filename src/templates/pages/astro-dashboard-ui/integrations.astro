@@ -1,6 +1,5 @@
 ---
 import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
-import { spawn } from "child_process";
 import { execaCommand } from "execa";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
 
@@ -8,26 +7,12 @@ const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTE
 const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIAL_INTEGRATIONS]" as unknown as OfficialIntegration[];
 
 if (Astro.request.method === "POST") {
-    // Get command from the request
+    // Get command from the request, e.g. `react`, `tailwind`
     const data = await Astro.request.formData();
     const command = data.get("command")!.toString();
 
-    // Execute the `astro add` command
+    // Execute the `[npx|pnpx|yarn] astro add` command
     await execaCommand(command, { stdio: "inherit" });
-
-    // Restart the server
-    // Source - https://gist.github.com/silverwind/d0802f7a919ae86ff25e
-    setTimeout(() => {
-        process.on("exit", () => {
-            spawn(process.argv.shift() as string, process.argv, {
-                cwd: process.cwd(),
-                detached: true,
-                stdio: "inherit"
-            });
-        });
-
-        process.exit();
-    }, 1000);
 
     // Refresh the page
     return Response.redirect(Astro.request.headers.get("referer"));
