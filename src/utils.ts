@@ -1,5 +1,6 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { ActiveIntegration, OfficialIntegration } from "./index.js";
+import { detect } from "detect-package-manager";
 import {
     existsSync,
     mkdirSync,
@@ -14,6 +15,24 @@ import {
     TEMPLATES_LAYOUTS,
     TEMPLATES_PAGES,
 } from "./constants/index.js";
+
+export type PackageManager = "npx" | "yarn" | "pnpx";
+
+export interface PackageManagerMap {
+    npm: "npx";
+    pnpm: "pnpx";
+    yarn: "yarn";
+}
+
+export const getPackageManager = async (): Promise<PackageManager> => {
+    const packageManager: PackageManagerMap = {
+        npm: "npx",
+        pnpm: "pnpx",
+        yarn: "yarn",
+    };
+
+    return packageManager[await detect()] ?? packageManager.npm;
+};
 
 const copyTemplate = ({ from, to }: { from: string; to: string }) => {
     if (existsSync(to)) {
