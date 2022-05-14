@@ -13,43 +13,37 @@ export const OFFICIAL_INTEGRATIONS = (
             items: [
                 {
                     name: "@astrojs/react",
-                    command: "react",
-                    commandText: `${options!.packageManager} astro add react`,
+                    command: `${options!.packageManager} astro add react`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/react`,
                     active: false,
                 },
                 {
                     name: "@astrojs/preact",
-                    command: "preact",
-                    commandText: `${options!.packageManager} astro add preact`,
+                    command: `${options!.packageManager} astro add preact`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/preact`,
                     active: false,
                 },
                 {
                     name: "@astrojs/vue",
-                    command: "vue",
-                    commandText: `${options!.packageManager} astro add vue`,
+                    command: `${options!.packageManager} astro add vue`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/vue`,
                     active: false,
                 },
                 {
                     name: "@astrojs/svelte",
-                    command: "svelte",
-                    commandText: `${options!.packageManager} astro add svelte`,
+                    command: `${options!.packageManager} astro add svelte`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/svelte`,
                     active: false,
                 },
                 {
                     name: "@astrojs/solid-js",
-                    command: "solid-js",
-                    commandText: `${options!.packageManager} astro add solid`,
+                    command: `${options!.packageManager} astro add solid`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/solid`,
                     active: false,
                 },
                 {
                     name: "@astrojs/lit",
-                    command: "lit",
-                    commandText: `${options!.packageManager} astro add lit`,
+                    command: `${options!.packageManager} astro add lit`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/lit`,
                     active: false,
                 },
@@ -61,35 +55,25 @@ export const OFFICIAL_INTEGRATIONS = (
             items: [
                 {
                     name: "@astrojs/tailwind",
-                    command: "tailwind",
-                    commandText: `${
-                        options!.packageManager
-                    } astro add tailwind`,
+                    command: `${options!.packageManager} astro add tailwind`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/tailwind`,
                     active: false,
                 },
                 {
                     name: "@astrojs/turbolinks",
-                    command: "turbolinks",
-                    commandText: `${
-                        options!.packageManager
-                    } astro add turbolinks`,
+                    command: `${options!.packageManager} astro add turbolinks`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/turbolinks`,
                     active: false,
                 },
                 {
                     name: "@astrojs/partytown",
-                    command: "partytown",
-                    commandText: `${
-                        options!.packageManager
-                    } astro add partytown`,
+                    command: `${options!.packageManager} astro add partytown`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/partytown`,
                     active: false,
                 },
                 {
                     name: "@astrojs/sitemap",
-                    command: "sitemap",
-                    commandText: `${options!.packageManager} astro add sitemap`,
+                    command: `${options!.packageManager} astro add sitemap`,
                     url: `${OFFICIAL_INTEGRATION_BASE_URL}/sitemap`,
                     active: false,
                 },

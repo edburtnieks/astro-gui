@@ -1,32 +1,35 @@
 ---
 import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
-import { spawnSync, spawn } from "child_process";
+import { spawn } from "child_process";
+import { execaCommand } from "execa";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
 
 const activeIntegrations: ActiveIntegration[] = "[ASTRO_DASHBOARD_UI:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[];
 const officialIntegrations: OfficialIntegration[] = "[ASTRO_DASHBOARD_UI:OFFICIAL_INTEGRATIONS]" as unknown as OfficialIntegration[];
 
 if (Astro.request.method === "POST") {
+    // Get command from the request
     const data = await Astro.request.formData();
     const command = data.get("command")!.toString();
 
-    await spawnSync("npx", ["astro", "add", command], {
-        stdio: "inherit",
-    });
+    // Execute the `astro add` command
+    await execaCommand(command, { stdio: "inherit" });
 
-    (function main() {
-        if (process.env.process_restarting) {
-            delete process.env.process_restarting;
-            setTimeout(main, 1000);
-            return;
-        }
+    // Restart the server
+    // Source - https://gist.github.com/silverwind/d0802f7a919ae86ff25e
+    setTimeout(() => {
+        process.on("exit", () => {
+            spawn(process.argv.shift() as string, process.argv, {
+                cwd: process.cwd(),
+                detached: true,
+                stdio: "inherit"
+            });
+        });
 
-        spawn(process.argv[0], process.argv.slice(1), {
-            env: { process_restarting: "1" },
-            stdio: "ignore",
-        }).unref();
-    })();
+        process.exit();
+    }, 1000);
 
+    // Refresh the page
     return Response.redirect(Astro.request.headers.get("referer"));
 }
 ---
@@ -72,7 +75,7 @@ if (Astro.request.method === "POST") {
                                     <li>
                                         <article class="card">
                                             <h4>{item.name}</h4>
-                                            {item.commandText ? <code>{item.commandText}</code> : null}
+                                            {item.command ? <code>{item.command}</code> : null}
                                             {item.active ? (
                                                 <p>Added</p>
                                             ) : (
