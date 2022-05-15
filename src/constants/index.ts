@@ -1,8 +1,8 @@
 import type { AstroConfig } from "astro";
 import * as integrations from "./integrations.js";
 
-const PARSE_NAME = "ASTRO_DASHBOARD_UI";
-export const NAME = "astro-dashboard-ui";
+const PARSE_NAME = "ASTRO_GUI";
+export const NAME = "astro-gui";
 
 export const TEMPLATE_DATA_INTEGRATIONS = "integrations.ts";
 export const PARSE_ACTIVE_INTEGRATIONS = `"[${PARSE_NAME}:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[]`;

@@ -1,26 +1,26 @@
 ---
-import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-dashboard-ui";
+import type { ActiveIntegration, OfficialIntegration, Integration } from "astro-gui";
 import { execaCommand } from "execa";
-import { activeIntegrations, officialIntegrations } from "../../data/astro-dashboard-ui/integrations.ts";
-import { CopyButton } from "../../components/astro-dashboard-ui/CopyButton.tsx";
-import { AddButton } from "../../components/astro-dashboard-ui/AddButton.tsx";
-import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
-import terminalSVG from "/assets/astro-dashboard-ui/terminal.svg";
-import clipboardSVG from "/assets/astro-dashboard-ui/clipboard.svg";
-import denoSVG from "/assets/astro-dashboard-ui/deno.svg";
-import litSVG from "/assets/astro-dashboard-ui/lit.svg";
-import netlifySVG from "/assets/astro-dashboard-ui/netlify.svg";
-import nodeSVG from "/assets/astro-dashboard-ui/node.svg";
-import partytownSVG from "/assets/astro-dashboard-ui/partytown.svg";
-import preactSVG from "/assets/astro-dashboard-ui/preact.svg";
-import reactSVG from "/assets/astro-dashboard-ui/react.svg";
-import sitemapSVG from "/assets/astro-dashboard-ui/sitemap.svg";
-import solidSVG from "/assets/astro-dashboard-ui/solid.svg";
-import svelteSVG from "/assets/astro-dashboard-ui/svelte.svg";
-import tailwindSVG from "/assets/astro-dashboard-ui/tailwind.svg";
-import turbolinksSVG from "/assets/astro-dashboard-ui/turbolinks.svg";
-import vercelSVG from "/assets/astro-dashboard-ui/vercel.svg";
-import vueSVG from "/assets/astro-dashboard-ui/vue.svg";
+import { activeIntegrations, officialIntegrations } from "../../data/astro-gui/integrations.ts";
+import { CopyButton } from "../../components/astro-gui/CopyButton.tsx";
+import { AddButton } from "../../components/astro-gui/AddButton.tsx";
+import BaseLayout from "../../layouts/astro-gui/BaseLayout.astro";
+import terminalSVG from "/assets/astro-gui/terminal.svg";
+import clipboardSVG from "/assets/astro-gui/clipboard.svg";
+import denoSVG from "/assets/astro-gui/deno.svg";
+import litSVG from "/assets/astro-gui/lit.svg";
+import netlifySVG from "/assets/astro-gui/netlify.svg";
+import nodeSVG from "/assets/astro-gui/node.svg";
+import partytownSVG from "/assets/astro-gui/partytown.svg";
+import preactSVG from "/assets/astro-gui/preact.svg";
+import reactSVG from "/assets/astro-gui/react.svg";
+import sitemapSVG from "/assets/astro-gui/sitemap.svg";
+import solidSVG from "/assets/astro-gui/solid.svg";
+import svelteSVG from "/assets/astro-gui/svelte.svg";
+import tailwindSVG from "/assets/astro-gui/tailwind.svg";
+import turbolinksSVG from "/assets/astro-gui/turbolinks.svg";
+import vercelSVG from "/assets/astro-gui/vercel.svg";
+import vueSVG from "/assets/astro-gui/vue.svg";
 
 const logos: {[x: string]: any} = {
     "@astrojs/deno": denoSVG,

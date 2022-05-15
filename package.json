@@ -1,7 +1,7 @@
 {
     "name": "astro-gui",
     "version": "0.0.40",
-    "description": "Dashboard UI for Astro",
+    "description": "Manage your Astro project using graphical interface. Inspired by Vue CLI GUI. ",
     "type": "module",
     "main": "./dist/index.js",
     "types": "./dist/index.d.ts",
@@ -9,9 +9,9 @@
         ".": "./dist/index.js",
         "./package.json": "./package.json"
     },
-    "repository": "github:edburtnieks/astro-dashboard-ui",
+    "repository": "github:edburtnieks/astro-gui",
     "bugs": {
-        "url": "https://github.com/edburtnieks/astro-dashboard-ui/issues",
+        "url": "https://github.com/edburtnieks/astro-gui/issues",
         "email": "edburtnieks@pm.me"
     },
     "scripts": {
@@ -20,7 +20,8 @@
     },
     "keywords": [
         "astro",
-        "dashboard"
+        "dashboard",
+        "gui"
     ],
     "author": "Edgars Burtnieks <edburtnieks@pm.me>",
     "license": "MIT",

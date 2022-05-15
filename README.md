@@ -1,22 +1,22 @@
-# Astro Dashboard UI
+# Astro GUI
 
 Manage your [Astro](https://astro.build) project using graphical interface. Inspired by Vue CLI GUI.
 
 ## Setup
 
-1. Install `astro-dashboard-ui`
+1. Install `astro-gui`
 
     **shell**
 
     ```sh
     # Using npm
-    npm i astro-dashboard-ui
+    npm i astro-gui
 
     # Using yarn
-    yarn add astro-dashboard-ui
+    yarn add astro-gui
 
     # Using pnpm
-    pnpm add astro-dashboard-ui
+    pnpm add astro-gui
     ```
 
 2. Add the integration to `integrations` property in your `astro.config.mjs` file
@@ -24,11 +24,11 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
     **astro.config.mjs**
 
     ```js
-    import astroDashboardUI from 'astro-dashboard-ui';
+    import astroGUI from 'astro-gui';
 
     export default {
         // ...
-        integrations: [astroDashboardUI()],
+        integrations: [astroGUI()],
     };
     ```
 
@@ -115,7 +115,7 @@ The dashboard UI is built using Astro itself, which means all the files are gene
 
 ### Pages
 
-* Integrations - `/astro-dashboard-ui/integrations`
+* Integrations - `/astro-gui/integrations`
 
     (TODO add image)
 
@@ -125,7 +125,7 @@ The dashboard UI is built using Astro itself, which means all the files are gene
 .
 ├── public
 │   └── assets
-│       └── astro-dashboard-ui
+│       └── astro-gui
 │           ├── clipboard.svg
 │           ├── deno.svg
 │           ├── lit.svg
@@ -144,17 +144,17 @@ The dashboard UI is built using Astro itself, which means all the files are gene
 │           └── vue.svg
 └── src
     ├── components
-    │   └── astro-dashboard-ui
+    │   └── astro-gui
     │       ├── AddButton.tsx
     │       ├── CopyButton.tsx
     │       └── ToastItem.tsx
     ├── data
-    │   └── astro-dashboard-ui
+    │   └── astro-gui
     │       └── integrations.ts
     ├── layouts
-    │   └── astro-dashboard-ui
+    │   └── astro-gui
     │       └── BaseLayout.astro
     └── pages
-        └── astro-dashboard-ui
+        └── astro-gui
             └── integrations.astro
 ```
