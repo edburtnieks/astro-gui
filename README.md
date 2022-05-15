@@ -117,7 +117,8 @@ The dashboard UI is built using Astro itself, which means all the files are gene
 
 * Integrations - `/astro-gui/integrations`
 
-    (TODO add image)
+    ![integrations](https://user-images.githubusercontent.com/85392357/168479443-b6d91bc5-46e4-4776-8db5-a14702f78045.png)
+
 
 ### Generated files
 
