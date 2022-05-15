@@ -121,7 +121,16 @@ const { title } = Astro.props as Props;
 }
 
 :where(.card-logo) {
-    width: 1.5rem;
+    background-color: hsl(240 100% 100%);
+    padding: 0.25rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+:where(.card-logo img) {
+    width: 1rem;
     aspect-ratio: 1;
 }
 

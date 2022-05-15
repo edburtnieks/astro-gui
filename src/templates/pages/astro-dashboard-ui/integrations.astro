@@ -82,7 +82,9 @@ if (Astro.request.method === "POST") {
                                                 </header>
                                                 <footer class="card-footer">
                                                     <div class="card-logo-and-buttons">
-                                                        <img class="card-logo" src={logos[item.name]} aria-hidden="true" />
+                                                        <div class="card-logo">
+                                                            <img src={logos[item.name]} aria-hidden="true" />
+                                                        </div>
                                                     </div>
                                                     <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
                                                 </footer>
@@ -112,7 +114,9 @@ if (Astro.request.method === "POST") {
                                             </header>
                                             <footer class="card-footer">
                                                 <div class="card-logo-and-buttons">
-                                                    <img class="card-logo" src={logos[item.name]} aria-hidden="true" />
+                                                    <div class="card-logo">
+                                                        <img src={logos[item.name]} aria-hidden="true" />
+                                                    </div>
                                                     {item.active ? (
                                                         null
                                                     ) : (
