@@ -21,15 +21,15 @@ export const TEMPLATES_LAYOUTS = (config: AstroConfig) =>
 export const TEMPLATES_PAGES = (config: AstroConfig) =>
     `${TEMPLATES(config)}/pages/${NAME}`;
 
-export const DIRECTORY_DATA = (config: AstroConfig) =>
-    `${config.srcDir.pathname}data/${NAME}`;
-export const DIRECTORY_ASSETS = (config: AstroConfig) =>
-    `${config.root.pathname}public/assets/${NAME}`;
-export const DIRECTORY_COMPONENTS = (config: AstroConfig) =>
-    `${config.srcDir.pathname}components/${NAME}`;
-export const DIRECTORY_LAYOUTS = (config: AstroConfig) =>
-    `${config.srcDir.pathname}layouts/${NAME}`;
-export const DIRECTORY_PAGES = (config: AstroConfig) =>
-    `${config.srcDir.pathname}pages/${NAME}`;
+export const DIRECTORY_DATA = (config: AstroConfig, path: string) =>
+    `${config.srcDir.pathname}${path}`;
+export const DIRECTORY_ASSETS = (config: AstroConfig, path: string) =>
+    `${config.root.pathname}${path}`;
+export const DIRECTORY_COMPONENTS = (config: AstroConfig, path: string) =>
+    `${config.srcDir.pathname}${path}`;
+export const DIRECTORY_LAYOUTS = (config: AstroConfig, path: string) =>
+    `${config.srcDir.pathname}${path}`;
+export const DIRECTORY_PAGES = (config: AstroConfig, path: string) =>
+    `${config.srcDir.pathname}${path}`;
 
 export { integrations };

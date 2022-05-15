@@ -23,6 +23,16 @@ export interface OfficialIntegration {
     items: Integration[];
 }
 
+export type ParsedLocation =
+    | {
+          data: string;
+          assets: string;
+          components: string;
+          layouts: string;
+          pages: string;
+      }
+    | undefined;
+
 export type PluginOptions =
     | {
           packageManager?: PackageManager;
@@ -31,6 +41,7 @@ export type PluginOptions =
 
 export interface ParsedPluginOptions {
     packageManager: PackageManagerX;
+    location: ParsedLocation;
 }
 
 export default function createPlugin(
@@ -41,6 +52,7 @@ export default function createPlugin(
     utils.getPackageManager().then((packageManager: PackageManagerX) => {
         parsedPluginOptions = {
             packageManager,
+            location: undefined,
         };
     });
 
@@ -48,11 +60,37 @@ export default function createPlugin(
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
+                parsedPluginOptions = {
+                    ...parsedPluginOptions,
+                    location: {
+                        data: constants.DIRECTORY_DATA(
+                            config,
+                            `data/${constants.NAME}`
+                        ),
+                        assets: constants.DIRECTORY_ASSETS(
+                            config,
+                            `public/assets/${constants.NAME}`
+                        ),
+                        components: constants.DIRECTORY_COMPONENTS(
+                            config,
+                            `components/${constants.NAME}`
+                        ),
+                        layouts: constants.DIRECTORY_LAYOUTS(
+                            config,
+                            `layouts/${constants.NAME}`
+                        ),
+                        pages: constants.DIRECTORY_PAGES(
+                            config,
+                            `pages/${constants.NAME}`
+                        ),
+                    },
+                };
+
                 api.prepareDataTemplates(config, parsedPluginOptions);
-                api.prepareAssetTemplates(config);
-                api.prepareComponentTemplates(config);
-                api.prepareLayoutTemplates(config);
-                api.preparePageTemplates(config);
+                api.prepareAssetTemplates(config, parsedPluginOptions);
+                api.prepareComponentTemplates(config, parsedPluginOptions);
+                api.prepareLayoutTemplates(config, parsedPluginOptions);
+                api.preparePageTemplates(config, parsedPluginOptions);
             },
         },
     };

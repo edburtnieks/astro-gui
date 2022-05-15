@@ -1,5 +1,9 @@
 import type { AstroConfig, AstroIntegration } from "astro";
-import type { ActiveIntegration, OfficialIntegration } from "./index.js";
+import type {
+    ActiveIntegration,
+    OfficialIntegration,
+    ParsedPluginOptions,
+} from "./index.js";
 import preferredPM from "preferred-pm";
 import {
     existsSync,
@@ -10,11 +14,6 @@ import {
 } from "fs";
 import { readdir } from "fs/promises";
 import {
-    DIRECTORY_ASSETS,
-    DIRECTORY_COMPONENTS,
-    DIRECTORY_DATA,
-    DIRECTORY_LAYOUTS,
-    DIRECTORY_PAGES,
     NAME,
     TEMPLATES_ASSETS,
     TEMPLATES_COMPONENTS,
@@ -141,6 +140,7 @@ export const getAllFilesFromDirectory = async (from: string) => {
 
 export const parseDataContent = async (
     config: AstroConfig,
+    pluginOptions: ParsedPluginOptions,
     file: string,
     cb: Function
 ) => {
@@ -148,36 +148,39 @@ export const parseDataContent = async (
         `${TEMPLATES_DATA(config)}/${file}`
     ).toString();
     const parsedContent = await cb(content);
-    writeFileSync(`${DIRECTORY_DATA(config)}/${file}`, parsedContent);
+    writeFileSync(`${pluginOptions.location!.data}/${file}`, parsedContent);
 };
 
-export const copyAllAssetTemplates = (config: AstroConfig) => {
+export const copyAllAssetTemplates = (config: AstroConfig, path: string) => {
     copyAllFilesInDirectory({
         from: TEMPLATES_ASSETS(config),
-        to: DIRECTORY_ASSETS(config),
+        to: path,
         options: {
             replace: true,
         },
     });
 };
 
-export const copyAllComponentTemplates = (config: AstroConfig) => {
+export const copyAllComponentTemplates = (
+    config: AstroConfig,
+    path: string
+) => {
     copyAllFilesInDirectory({
         from: TEMPLATES_COMPONENTS(config),
-        to: DIRECTORY_COMPONENTS(config),
+        to: path,
     });
 };
 
-export const copyAllLayoutTemplates = (config: AstroConfig) => {
+export const copyAllLayoutTemplates = (config: AstroConfig, path: string) => {
     copyAllFilesInDirectory({
         from: TEMPLATES_LAYOUTS(config),
-        to: DIRECTORY_LAYOUTS(config),
+        to: path,
     });
 };
 
-export const copyAllPageTemplates = (config: AstroConfig) => {
+export const copyAllPageTemplates = (config: AstroConfig, path: string) => {
     copyAllFilesInDirectory({
         from: TEMPLATES_PAGES(config),
-        to: DIRECTORY_PAGES(config),
+        to: path,
     });
 };
