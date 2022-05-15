@@ -6,8 +6,6 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 
 1. Install `astro-gui`
 
-    **shell**
-
     ```sh
     # Using npm
     npm i astro-gui
@@ -21,9 +19,8 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 
 2. Add the integration to `integrations` property in your `astro.config.mjs` file
 
-    **astro.config.mjs**
-
     ```js
+    // astro.config.mjs
     import astroGUI from 'astro-gui';
 
     export default {
@@ -34,9 +31,8 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 
 3. Add the following to your `astro.config.mjs` file
 
-    **astro.config.mjs**
-
     ```js
+    // astro.config.mjs
     export default {
         // ...
         vite: {
@@ -50,8 +46,6 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 4. Parts of the dashboard UI is built using [SolidJS](https://www.solidjs.com/)
 
     Install `solid` ([Detailed instructions](https://github.com/withastro/astro/tree/main/packages/integrations/solid))
-
-    **shell**
 
     ```sh
     # Using npm
@@ -68,8 +62,6 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 
     5.1. Install `node` adapter ([Detailed instructions](https://github.com/withastro/astro/tree/main/packages/integrations/node))
 
-    **shell**
-
     ```sh
     # Using npm
     npm i @astrojs/node
@@ -83,9 +75,8 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
     
     5.2. Add the adapter to `adapter` property in your `astro.config.mjs` file
 
-    **astro.config.mjs**
-
     ```js
+    // astro.config.mjs
     import nodejs from '@astrojs/node';
 
     export default {
@@ -96,9 +87,8 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 
 6. Currently you have to start the server using `--experimental-integrations` flag
 
-    **package.json**
-
-    ```json
+    ```json5
+    // package.json
     {
         // ...
         "scripts": {
@@ -109,9 +99,28 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
     }
     ```
 
+### Configuration
+
+#### packageManager
+
+Your package manager for the project is automatically detect, but in case you need to change it
+
+Supported values - `'npm'` | `'yarn'` | `'pnpm'`
+
+```js
+// astro.config.mjs
+import astroGUI from 'astro-gui';
+
+export default {
+    integrations: [astroGUI({
+        packageManager: 'yarn',
+    })],
+};
+```
+
 ## Getting started
 
-The dashboard UI is built using Astro itself, which means all the files are generated and put directly in your project for you to freely modify everything. Although currently there are some limitations (TODO add limitations section).
+The dashboard UI is built using Astro itself. That means all the files making up the whole GUI are generated and copied directly in your project for you to freely modify.
 
 ### Pages
 
