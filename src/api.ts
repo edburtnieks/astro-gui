@@ -1,7 +1,6 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { OfficialIntegration, ParsedPluginOptions } from "./index.js";
 import {
-    DATA_INTEGRATIONS,
     DIRECTORY_ASSETS,
     DIRECTORY_COMPONENTS,
     DIRECTORY_DATA,
@@ -9,36 +8,29 @@ import {
     DIRECTORY_PAGES,
     PARSE_ACTIVE_INTEGRATIONS,
     PARSE_OFFICIAL_INTEGRATIONS,
+    TEMPLATES_DATA,
     TEMPLATE_DATA_INTEGRATIONS,
 } from "./constants/index.js";
 import { OFFICIAL_INTEGRATIONS } from "./constants/integrations.js";
 import {
     copyAllAssetTemplates,
-    copyComponentTemplate,
-    copyLayoutTemplate,
-    copyPageTemplate,
+    copyAllComponentTemplates,
+    copyAllLayoutTemplates,
+    copyAllPageTemplates,
     createDirectoryStructure,
+    getAllFilesFromDirectory,
     parseActiveIntegrations,
     parseDataContent,
 } from "./utils.js";
 
-export const copyAssets = async ({ config }: { config: AstroConfig }) => {
-    createDirectoryStructure(DIRECTORY_ASSETS(config));
-    copyAllAssetTemplates({ config });
-};
-
-export const prepareDataTemplates = ({
-    config,
-    pluginOptions,
-    files,
-}: {
-    config: AstroConfig;
-    pluginOptions: ParsedPluginOptions;
-    files: string[];
-}) => {
+export const prepareDataTemplates = async (
+    config: AstroConfig,
+    pluginOptions: ParsedPluginOptions
+) => {
     createDirectoryStructure(DIRECTORY_DATA(config));
+    const files = await getAllFilesFromDirectory(TEMPLATES_DATA(config));
     files.forEach((file) => {
-        if (file === DATA_INTEGRATIONS) {
+        if (file === TEMPLATE_DATA_INTEGRATIONS) {
             parseIntegrationsDataTemplate({
                 config,
                 activeIntegrations: config.integrations,
@@ -46,39 +38,6 @@ export const prepareDataTemplates = ({
             });
         }
     });
-};
-
-export const prepareComponentTemplates = ({
-    config,
-    files,
-}: {
-    config: AstroConfig;
-    files: string[];
-}) => {
-    createDirectoryStructure(DIRECTORY_COMPONENTS(config));
-    files.forEach((file) => copyComponentTemplate({ config, file }));
-};
-
-export const prepareLayoutTemplates = ({
-    config,
-    files,
-}: {
-    config: AstroConfig;
-    files: string[];
-}) => {
-    createDirectoryStructure(DIRECTORY_LAYOUTS(config));
-    files.forEach((file) => copyLayoutTemplate({ config, file }));
-};
-
-export const preparePageTemplates = ({
-    config,
-    files,
-}: {
-    config: AstroConfig;
-    files: string[];
-}) => {
-    createDirectoryStructure(DIRECTORY_PAGES(config));
-    files.forEach((file) => copyPageTemplate({ config, file }));
 };
 
 const parseIntegrationsDataTemplate = ({
@@ -108,4 +67,24 @@ const parseIntegrationsDataTemplate = ({
 
         return parsedContent;
     });
+};
+
+export const prepareAssetTemplates = (config: AstroConfig) => {
+    createDirectoryStructure(DIRECTORY_ASSETS(config));
+    copyAllAssetTemplates(config);
+};
+
+export const prepareComponentTemplates = (config: AstroConfig) => {
+    createDirectoryStructure(DIRECTORY_COMPONENTS(config));
+    copyAllComponentTemplates(config);
+};
+
+export const prepareLayoutTemplates = (config: AstroConfig) => {
+    createDirectoryStructure(DIRECTORY_LAYOUTS(config));
+    copyAllLayoutTemplates(config);
+};
+
+export const preparePageTemplates = (config: AstroConfig) => {
+    createDirectoryStructure(DIRECTORY_PAGES(config));
+    copyAllPageTemplates(config);
 };

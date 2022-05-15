@@ -48,27 +48,11 @@ export default function createPlugin(
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
-                api.copyAssets({ config });
-                api.prepareDataTemplates({
-                    config,
-                    pluginOptions: parsedPluginOptions,
-                    files: [constants.DATA_INTEGRATIONS],
-                });
-                api.prepareComponentTemplates({
-                    config,
-                    files: [
-                        constants.TEMPLATE_COMPONENT_COPY_BUTTON,
-                        constants.TEMPLATE_COMPONENT_ADD_BUTTON,
-                    ],
-                });
-                api.prepareLayoutTemplates({
-                    config,
-                    files: [constants.TEMPLATE_LAYOUT_BASE],
-                });
-                api.preparePageTemplates({
-                    config,
-                    files: [constants.TEMPLATE_PAGE_INTEGRATIONS],
-                });
+                api.prepareDataTemplates(config, parsedPluginOptions);
+                api.prepareAssetTemplates(config);
+                api.prepareComponentTemplates(config);
+                api.prepareLayoutTemplates(config);
+                api.preparePageTemplates(config);
             },
         },
     };

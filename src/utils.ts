@@ -23,146 +23,6 @@ import {
     TEMPLATES_PAGES,
 } from "./constants/index.js";
 
-export type PackageManager = "npm" | "pnpm" | "yarn";
-export type PackageManagerX = "npx" | "pnpx" | "yarn";
-export interface PackageManagerMap {
-    npm: "npx";
-    pnpm: "pnpx";
-    yarn: "yarn";
-}
-
-export const getPackageManager = async (): Promise<PackageManagerX> => {
-    const packageManager: PackageManagerMap = {
-        npm: "npx",
-        pnpm: "pnpx",
-        yarn: "yarn",
-    };
-
-    return packageManager[
-        await preferredPM(process.cwd()).then((pm) => pm?.name ?? "npm")
-    ];
-};
-
-const copyTemplate = ({
-    from,
-    to,
-    options = { replace: false },
-}: {
-    from: string;
-    to: string;
-    options?: { replace: boolean };
-}) => {
-    if (!options.replace && existsSync(to)) {
-        return;
-    }
-
-    copyFileSync(from, to);
-};
-
-const copyAllFilesInDirectory = async ({
-    from,
-    to,
-    options,
-}: {
-    from: string;
-    to: string;
-    options?: { replace: boolean };
-}) => {
-    const files = await readdir(from);
-    files.forEach((file) => {
-        copyTemplate({
-            from: `${from}/${file}`,
-            to: `${to}/${file}`,
-            options,
-        });
-    });
-};
-
-export const createDirectoryStructure = (dir: string) => {
-    if (existsSync(dir)) {
-        return;
-    }
-
-    mkdirSync(dir, { recursive: true });
-};
-
-export const parseDataContent = async (
-    config: AstroConfig,
-    file: string,
-    cb: Function
-) => {
-    const content = readFileSync(
-        `${TEMPLATES_DATA(config)}/${file}`
-    ).toString();
-    const parsedContent = await cb(content);
-    writeFileSync(`${DIRECTORY_DATA(config)}/${file}`, parsedContent);
-};
-
-export const copyAllAssetTemplates = ({ config }: { config: AstroConfig }) => {
-    copyAllFilesInDirectory({
-        from: TEMPLATES_ASSETS(config),
-        to: DIRECTORY_ASSETS(config),
-        options: {
-            replace: true,
-        },
-    });
-};
-
-export const copyAssetTemplate = ({
-    config,
-    file,
-    options,
-}: {
-    config: AstroConfig;
-    file: string;
-    options?: { replace: boolean };
-}) => {
-    copyTemplate({
-        from: `${TEMPLATES_ASSETS(config)}/${file}`,
-        to: `${DIRECTORY_ASSETS(config)}/${file}`,
-        options,
-    });
-};
-
-export const copyComponentTemplate = ({
-    config,
-    file,
-}: {
-    config: AstroConfig;
-    file: string;
-}) => {
-    copyTemplate({
-        from: `${TEMPLATES_COMPONENTS(config)}/${file}`,
-        to: `${DIRECTORY_COMPONENTS(config)}/${file}`,
-    });
-};
-
-export const copyLayoutTemplate = ({
-    config,
-    file,
-}: {
-    config: AstroConfig;
-    file: string;
-}) => {
-    copyTemplate({
-        from: `${TEMPLATES_LAYOUTS(config)}/${file}`,
-        to: `${DIRECTORY_LAYOUTS(config)}/${file}`,
-    });
-};
-
-export const copyPageTemplate = ({
-    config,
-    file,
-}: {
-    config: AstroConfig;
-    file: string;
-}) => {
-    copyTemplate({
-        from: `${TEMPLATES_PAGES(config)}/${file}`,
-        to: `${DIRECTORY_PAGES(config)}/${file}`,
-    });
-};
-
 export const parseActiveIntegrations = (
     activeIntegrations: AstroIntegration[],
     officialIntegrations: OfficialIntegration[]
@@ -209,4 +69,114 @@ export const parseActiveIntegrations = (
     });
 
     return activeIntegrationsByType;
+};
+
+export type PackageManager = "npm" | "pnpm" | "yarn";
+export type PackageManagerX = "npx" | "pnpx" | "yarn";
+export interface PackageManagerMap {
+    npm: "npx";
+    pnpm: "pnpx";
+    yarn: "yarn";
+}
+
+export const getPackageManager = async (): Promise<PackageManagerX> => {
+    const packageManager: PackageManagerMap = {
+        npm: "npx",
+        pnpm: "pnpx",
+        yarn: "yarn",
+    };
+
+    return packageManager[
+        await preferredPM(process.cwd()).then((pm) => pm?.name ?? "npm")
+    ];
+};
+
+const copyTemplate = ({
+    from,
+    to,
+    options = { replace: false },
+}: {
+    from: string;
+    to: string;
+    options?: { replace: boolean };
+}) => {
+    if (!options.replace && existsSync(to)) {
+        return;
+    }
+
+    copyFileSync(from, to);
+};
+
+const copyAllFilesInDirectory = async ({
+    from,
+    to,
+    options,
+}: {
+    from: string;
+    to: string;
+    options?: { replace: boolean };
+}) => {
+    const files = await getAllFilesFromDirectory(from);
+    files.forEach((file) => {
+        copyTemplate({
+            from: `${from}/${file}`,
+            to: `${to}/${file}`,
+            options,
+        });
+    });
+};
+
+export const createDirectoryStructure = (dir: string) => {
+    if (existsSync(dir)) {
+        return;
+    }
+
+    mkdirSync(dir, { recursive: true });
+};
+
+export const getAllFilesFromDirectory = async (from: string) => {
+    return await readdir(from);
+};
+
+export const parseDataContent = async (
+    config: AstroConfig,
+    file: string,
+    cb: Function
+) => {
+    const content = readFileSync(
+        `${TEMPLATES_DATA(config)}/${file}`
+    ).toString();
+    const parsedContent = await cb(content);
+    writeFileSync(`${DIRECTORY_DATA(config)}/${file}`, parsedContent);
+};
+
+export const copyAllAssetTemplates = (config: AstroConfig) => {
+    copyAllFilesInDirectory({
+        from: TEMPLATES_ASSETS(config),
+        to: DIRECTORY_ASSETS(config),
+        options: {
+            replace: true,
+        },
+    });
+};
+
+export const copyAllComponentTemplates = (config: AstroConfig) => {
+    copyAllFilesInDirectory({
+        from: TEMPLATES_COMPONENTS(config),
+        to: DIRECTORY_COMPONENTS(config),
+    });
+};
+
+export const copyAllLayoutTemplates = (config: AstroConfig) => {
+    copyAllFilesInDirectory({
+        from: TEMPLATES_LAYOUTS(config),
+        to: DIRECTORY_LAYOUTS(config),
+    });
+};
+
+export const copyAllPageTemplates = (config: AstroConfig) => {
+    copyAllFilesInDirectory({
+        from: TEMPLATES_PAGES(config),
+        to: DIRECTORY_PAGES(config),
+    });
 };
