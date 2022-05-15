@@ -35,7 +35,7 @@ export const CopyButton: Component<Props> = (props: Props) => {
             openDelay: 0,
             closeDelay: 0,
             positioning: {
-                placement: "right",
+                placement: "top",
             },
             "aria-label": `Copy ${props.command} to clipboard`,
         })
@@ -53,7 +53,7 @@ export const CopyButton: Component<Props> = (props: Props) => {
             max: 1,
         })
     );
-    const toastRef = useSetup({ send: toastSend, id: props.command });
+    const toastRef = useSetup({ send: toastSend, id: `copy-${props.command}` });
     const toastApi = createMemo(() =>
         toast.group.connect<PropTypes>(toastState, toastSend, normalizeProps)
     );
@@ -70,9 +70,12 @@ export const CopyButton: Component<Props> = (props: Props) => {
         <div>
             <button
                 ref={tooltipRef}
-                {...mergeProps(tooltipApi().triggerProps, { onClick: copy })}
+                {...mergeProps(tooltipApi().triggerProps, {
+                    class: "copy-button",
+                    onClick: copy,
+                })}
             >
-                <code>{props.children}</code>
+                {props.children}
             </button>
             {tooltipApi().isOpen && (
                 <div

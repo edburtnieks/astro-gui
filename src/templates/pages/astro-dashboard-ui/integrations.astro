@@ -5,6 +5,39 @@ import { activeIntegrations, officialIntegrations } from "../../data/astro-dashb
 import { CopyButton } from "../../components/astro-dashboard-ui/CopyButton.tsx";
 import { AddButton } from "../../components/astro-dashboard-ui/AddButton.tsx";
 import BaseLayout from "../../layouts/astro-dashboard-ui/BaseLayout.astro";
+import terminalSVG from "/assets/astro-dashboard-ui/terminal.svg";
+import clipboardSVG from "/assets/astro-dashboard-ui/clipboard.svg";
+import denoSVG from "/assets/astro-dashboard-ui/deno.svg";
+import litSVG from "/assets/astro-dashboard-ui/lit.svg";
+import netlifySVG from "/assets/astro-dashboard-ui/netlify.svg";
+import nodeSVG from "/assets/astro-dashboard-ui/node.svg";
+import partytownSVG from "/assets/astro-dashboard-ui/partytown.svg";
+import preactSVG from "/assets/astro-dashboard-ui/preact.svg";
+import reactSVG from "/assets/astro-dashboard-ui/react.svg";
+import sitemapSVG from "/assets/astro-dashboard-ui/sitemap.svg";
+import solidSVG from "/assets/astro-dashboard-ui/solid.svg";
+import svelteSVG from "/assets/astro-dashboard-ui/svelte.svg";
+import tailwindSVG from "/assets/astro-dashboard-ui/tailwind.svg";
+import turbolinksSVG from "/assets/astro-dashboard-ui/turbolinks.svg";
+import vercelSVG from "/assets/astro-dashboard-ui/vercel.svg";
+import vueSVG from "/assets/astro-dashboard-ui/vue.svg";
+
+const logos: {[x: string]: any} = {
+    "@astrojs/deno": denoSVG,
+    "@astrojs/lit": litSVG,
+    "@astrojs/netlify": netlifySVG,
+    "@astrojs/node": nodeSVG,
+    "@astrojs/partytown": partytownSVG,
+    "@astrojs/preact": preactSVG,
+    "@astrojs/react": reactSVG,
+    "@astrojs/sitemap": sitemapSVG,
+    "@astrojs/solid-js": solidSVG,
+    "@astrojs/svelte": svelteSVG,
+    "@astrojs/tailwind": tailwindSVG,
+    "@astrojs/turbolinks": turbolinksSVG,
+    "@astrojs/vercel": vercelSVG,
+    "@astrojs/vue": vueSVG,
+};
 
 let message: string | null = null;
 
@@ -39,9 +72,16 @@ if (Astro.request.method === "POST") {
                                 <ul class="flow integration-list">
                                     {integration.items.map((item: Integration) => (
                                         <li>
-                                            <article class="card card-header">
-                                                <h4>{item.name}</h4>
-                                                <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                            <article class="card" data-status={item.active ? 'active' : undefined}>
+                                                <header class="card-header">
+                                                    <h4>{item.name}</h4>
+                                                </header>
+                                                <footer class="card-footer">
+                                                    <div class="card-logo-and-buttons">
+                                                        <img class="card-logo" src={logos[item.name]} aria-hidden="true" />
+                                                    </div>
+                                                    <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                                </footer>
                                             </article>
                                         </li>
                                     ))}
@@ -63,22 +103,31 @@ if (Astro.request.method === "POST") {
                                 {integration.items.map((item: Integration) => (
                                     <li>
                                         <article class="card" data-status={item.active ? 'active' : undefined}>
-                                            <header>
+                                            <header class="card-header">
                                                 <h4>{item.name}</h4>
-                                                <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
                                             </header>
-                                            {item.active ? (
-                                                null
-                                            ) : (
-                                                item.command ? (
-                                                    <CopyButton client:idle command={item.command}>
-                                                        {item.command}
-                                                    </CopyButton>
-                                                    <form method="POST">
-                                                        <AddButton client:idle command={item.command}>Add</AddButton>
-                                                    </form>
-                                                ) : null
-                                            )}
+                                            <footer class="card-footer">
+                                                <div class="card-logo-and-buttons">
+                                                    <img class="card-logo" src={logos[item.name]} aria-hidden="true" />
+                                                    {item.active ? (
+                                                        null
+                                                    ) : (
+                                                        item.command ? (
+                                                            <div class="card-buttons">
+                                                                <form method="POST">
+                                                                    <AddButton client:idle command={item.command}>
+                                                                        <img src={terminalSVG} aria-hidden="true" />
+                                                                    </AddButton>
+                                                                </form>
+                                                                <CopyButton client:idle command={item.command}>
+                                                                    <img src={clipboardSVG} aria-hidden="true" />
+                                                                </CopyButton>
+                                                            </div>
+                                                        ) : null
+                                                    )}
+                                                </div>
+                                                <a href={item.url} target="_blank" rel="noopener noreferrer">Homepage</a>
+                                            </footer>
                                         </article>
                                     </li>
                                 ))}

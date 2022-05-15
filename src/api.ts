@@ -1,17 +1,21 @@
 import type { AstroConfig, AstroIntegration } from "astro";
 import type { OfficialIntegration, ParsedPluginOptions } from "./index.js";
+import { readdir } from "fs/promises";
 import {
     DATA_INTEGRATIONS,
+    DIRECTORY_ASSETS,
     DIRECTORY_COMPONENTS,
     DIRECTORY_DATA,
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
     PARSE_ACTIVE_INTEGRATIONS,
     PARSE_OFFICIAL_INTEGRATIONS,
+    TEMPLATES_ASSETS,
     TEMPLATE_DATA_INTEGRATIONS,
 } from "./constants/index.js";
 import { OFFICIAL_INTEGRATIONS } from "./constants/integrations.js";
 import {
+    copyAssetTemplate,
     copyComponentTemplate,
     copyLayoutTemplate,
     copyPageTemplate,
@@ -19,6 +23,14 @@ import {
     parseActiveIntegrations,
     parseDataContent,
 } from "./utils.js";
+
+export const copyAssets = async ({ config }: { config: AstroConfig }) => {
+    createDirectoryStructure(DIRECTORY_ASSETS(config));
+    const files = await readdir(TEMPLATES_ASSETS(config));
+    files.forEach((file) =>
+        copyAssetTemplate({ config, file, options: { replace: true } })
+    );
+};
 
 export const prepareDataTemplates = ({
     config,

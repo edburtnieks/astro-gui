@@ -4,6 +4,8 @@ import * as integrations from "./integrations.js";
 export const NAME = "astro-dashboard-ui";
 export const TEMPLATES = (config: AstroConfig) =>
     `${config.root.pathname}node_modules/${NAME}/dist/templates`;
+export const TEMPLATES_ASSETS = (config: AstroConfig) =>
+    `${TEMPLATES(config)}/assets/${NAME}`;
 export const TEMPLATES_DATA = (config: AstroConfig) =>
     `${TEMPLATES(config)}/data/${NAME}`;
 export const TEMPLATES_COMPONENTS = (config: AstroConfig) =>
@@ -17,6 +19,8 @@ const PARSE_NAME = "ASTRO_DASHBOARD_UI";
 export const PARSE_ACTIVE_INTEGRATIONS = `"[${PARSE_NAME}:ACTIVE_INTEGRATIONS]" as unknown as ActiveIntegration[]`;
 export const PARSE_OFFICIAL_INTEGRATIONS = `"[${PARSE_NAME}:OFFICIAL_INTEGRATIONS]" as unknown as OfficialIntegration[]`;
 
+export const DIRECTORY_ASSETS = (config: AstroConfig) =>
+    `${config.root.pathname}public/assets/${NAME}`;
 export const DIRECTORY_DATA = (config: AstroConfig) =>
     `${config.srcDir.pathname}data/${NAME}`;
 export const DIRECTORY_COMPONENTS = (config: AstroConfig) =>

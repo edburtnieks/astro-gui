@@ -48,6 +48,7 @@ export default function createPlugin(
         name: constants.NAME,
         hooks: {
             "astro:config:setup": ({ config }: { config: AstroConfig }) => {
+                api.copyAssets({ config });
                 api.prepareDataTemplates({
                     config,
                     pluginOptions: parsedPluginOptions,

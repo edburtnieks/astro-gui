@@ -9,11 +9,13 @@ import {
     writeFileSync,
 } from "fs";
 import {
+    DIRECTORY_ASSETS,
     DIRECTORY_COMPONENTS,
     DIRECTORY_DATA,
     DIRECTORY_LAYOUTS,
     DIRECTORY_PAGES,
     NAME,
+    TEMPLATES_ASSETS,
     TEMPLATES_COMPONENTS,
     TEMPLATES_DATA,
     TEMPLATES_LAYOUTS,
@@ -40,8 +42,16 @@ export const getPackageManager = async (): Promise<PackageManagerX> => {
     ];
 };
 
-const copyTemplate = ({ from, to }: { from: string; to: string }) => {
-    if (existsSync(to)) {
+const copyTemplate = ({
+    from,
+    to,
+    options = { replace: false },
+}: {
+    from: string;
+    to: string;
+    options?: { replace: boolean };
+}) => {
+    if (!options.replace && existsSync(to)) {
         return;
     }
 
@@ -66,6 +76,22 @@ export const parseDataContent = async (
     ).toString();
     const parsedContent = await cb(content);
     writeFileSync(`${DIRECTORY_DATA(config)}/${file}`, parsedContent);
+};
+
+export const copyAssetTemplate = ({
+    config,
+    file,
+    options,
+}: {
+    config: AstroConfig;
+    file: string;
+    options?: { replace: boolean };
+}) => {
+    copyTemplate({
+        from: `${TEMPLATES_ASSETS(config)}/${file}`,
+        to: `${DIRECTORY_ASSETS(config)}/${file}`,
+        options,
+    });
 };
 
 export const copyComponentTemplate = ({
