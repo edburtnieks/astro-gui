@@ -58,6 +58,7 @@ export const AddButton: Component<Props> = (props: Props) => {
                     name: "command",
                     value: props.command,
                     class: "card-add-button",
+                    "aria-label": `Execute ${props.command} in current terminal session`,
                     onClick: () => {
                         toastApi().create({
                             title: "Check the console",

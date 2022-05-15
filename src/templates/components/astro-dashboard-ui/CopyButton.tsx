@@ -64,6 +64,7 @@ export const CopyButton: Component<Props> = (props: Props) => {
                 {...mergeProps(tooltipApi().triggerProps, {
                     class: "copy-button",
                     onClick: copy,
+                    "aria-label": `Copy ${props.command} to clipboard`,
                 })}
             >
                 {props.children}

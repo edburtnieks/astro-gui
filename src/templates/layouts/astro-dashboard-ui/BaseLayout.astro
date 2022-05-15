@@ -55,7 +55,7 @@ const { title } = Astro.props as Props;
 }
 
 :where(.container) {
-    width: min(100% - 2rem, 80rem);
+    inline-size: min(100% - 2rem, 80rem);
     margin-inline: auto;
 }
 
@@ -82,10 +82,9 @@ const { title } = Astro.props as Props;
 :where(.card[data-status="active"])::before {
     content: "✔";
     position: absolute;
-    width: 1rem;
+    inline-size: 1rem;
     aspect-ratio: 1;
-    left: -0.75rem;
-    top: -0.75rem;
+    inset: -0.75rem auto auto -0.75rem;
     background-color: hsl(116 27% 82%);
     border: 4px solid hsl(17 24% 94%);
     border-radius: 50%;
@@ -130,7 +129,7 @@ const { title } = Astro.props as Props;
 }
 
 :where(.card-logo img) {
-    width: 1rem;
+    inline-size: 1rem;
     aspect-ratio: 1;
 }
 
@@ -146,7 +145,7 @@ const { title } = Astro.props as Props;
     background-color: transparent;
     border: 1px solid hsl(257 31% 22%);
     padding: 0;
-    width: 1.5rem;
+    inline-size: 1.5rem;
     aspect-ratio: 1;
     border-radius: 0.25rem;
     cursor: pointer;
@@ -163,7 +162,7 @@ const { title } = Astro.props as Props;
 }
 
 :where(.card button img) {
-    width: 1rem;
+    inline-size: 1rem;
     aspect-ratio: 1;
 }
 
@@ -210,8 +209,8 @@ const { title } = Astro.props as Props;
 }
 
 :where(.toast[data-part="root"][data-type="loading"] [data-part="progressbar"]) {
-    height: 4px;
-    width: 25%;
+    block-size: 4px;
+    inline-size: 25%;
     border-radius: 100vw;
     background-color: hsl(257 31% 22%);
     animation: move 3s linear infinite !important;

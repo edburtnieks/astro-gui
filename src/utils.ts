@@ -135,7 +135,8 @@ export const createDirectoryStructure = (dir: string) => {
 };
 
 export const getAllFilesFromDirectory = async (from: string) => {
-    return await readdir(from);
+    const files = await readdir(from);
+    return files.filter((file) => !file.endsWith(".d.ts"));
 };
 
 export const parseDataContent = async (
