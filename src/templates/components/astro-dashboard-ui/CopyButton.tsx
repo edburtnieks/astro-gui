@@ -5,29 +5,16 @@ import * as toast from "@zag-js/toast";
 import {
     normalizeProps,
     PropTypes,
-    useActor,
     useMachine,
     useSetup,
     mergeProps,
 } from "@zag-js/solid";
+import { ToastItem } from "./ToastItem";
 
 interface Props {
     command: string;
     children: JSX.Element;
 }
-
-const ToastItem = (props: { actor: toast.Service }) => {
-    const [toastState, toastSend] = useActor(props.actor);
-    const toastApi = createMemo(() =>
-        toast.connect<PropTypes>(toastState, toastSend, normalizeProps)
-    );
-
-    return (
-        <div {...mergeProps(toastApi().rootProps, { class: "toast" })}>
-            <p {...toastApi().titleProps} innerHTML={toastApi().title} />
-        </div>
-    );
-};
 
 export const CopyButton: Component<Props> = (props: Props) => {
     const [tooltipState, tooltipSend] = useMachine(
@@ -42,7 +29,7 @@ export const CopyButton: Component<Props> = (props: Props) => {
     );
     const tooltipRef = useSetup<HTMLButtonElement>({
         send: tooltipSend,
-        id: props.command,
+        id: `tooltip-copy-${props.command}`,
     });
     const tooltipApi = createMemo(() =>
         tooltip.connect<PropTypes>(tooltipState, tooltipSend, normalizeProps)
@@ -51,9 +38,13 @@ export const CopyButton: Component<Props> = (props: Props) => {
     const [toastState, toastSend] = useMachine(
         toast.group.machine({
             max: 1,
+            gutter: "4rem",
         })
     );
-    const toastRef = useSetup({ send: toastSend, id: `copy-${props.command}` });
+    const toastRef = useSetup({
+        send: toastSend,
+        id: `toast-copy-${props.command}`,
+    });
     const toastApi = createMemo(() =>
         toast.group.connect<PropTypes>(toastState, toastSend, normalizeProps)
     );
@@ -92,7 +83,7 @@ export const CopyButton: Component<Props> = (props: Props) => {
                     </div>
                 </div>
             )}
-            <div {...toastApi().getGroupProps({ placement: "top-end" })}>
+            <div {...toastApi().getGroupProps({ placement: "top" })}>
                 <For each={toastApi().toasts}>
                     {(actor) => <ToastItem actor={actor} />}
                 </For>

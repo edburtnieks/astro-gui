@@ -51,13 +51,17 @@ if (Astro.request.method === "POST") {
 
     // Refresh the page and add message notification
     new Response(null, { status: 200 });
-    message = "Restart the server to update the dashboard"
+    message = "Data might be outdated. Restart the server to sync."
 }
 ---
 
 <BaseLayout title="Integrations">
     <header class="container page-header">
-        {message ? <p>{message}</p> : null}
+        {message ? (
+            <div class="info-banner">
+                <p>{message}</p>
+            </div>
+        ) : null}
         <h1>Integrations</h1>
     </header>
     <main class="container flow page-content">

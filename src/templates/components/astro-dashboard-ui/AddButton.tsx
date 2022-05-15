@@ -1,6 +1,7 @@
+import { createMemo, For } from "solid-js";
 import type { Component, JSX } from "solid-js";
-import { createSignal, createMemo } from "solid-js";
 import * as tooltip from "@zag-js/tooltip";
+import * as toast from "@zag-js/toast";
 import {
     normalizeProps,
     PropTypes,
@@ -8,6 +9,7 @@ import {
     useSetup,
     mergeProps,
 } from "@zag-js/solid";
+import { ToastItem } from "./ToastItem";
 
 interface Props {
     command: string;
@@ -27,17 +29,28 @@ export const AddButton: Component<Props> = (props: Props) => {
     );
     const tooltipRef = useSetup<HTMLButtonElement>({
         send: tooltipSend,
-        id: `add-${props.command}`,
+        id: `tooltip-add-${props.command}`,
     });
     const tooltipApi = createMemo(() =>
         tooltip.connect<PropTypes>(tooltipState, tooltipSend, normalizeProps)
     );
 
-    const [shouldCheckConsole, setShouldCheckConsole] = createSignal(false);
+    const [toastState, toastSend] = useMachine(
+        toast.group.machine({
+            max: 1,
+            gutter: "4rem",
+        })
+    );
+    const toastRef = useSetup({
+        send: toastSend,
+        id: `toast-add-${props.command}`,
+    });
+    const toastApi = createMemo(() =>
+        toast.group.connect<PropTypes>(toastState, toastSend, normalizeProps)
+    );
 
     return (
         <div>
-            {shouldCheckConsole() ? <p>Check the console</p> : null}
             <button
                 ref={tooltipRef}
                 {...mergeProps(tooltipApi().triggerProps, {
@@ -45,7 +58,12 @@ export const AddButton: Component<Props> = (props: Props) => {
                     name: "command",
                     value: props.command,
                     class: "card-add-button",
-                    onClick: () => setShouldCheckConsole(true),
+                    onClick: () => {
+                        toastApi().create({
+                            title: "Check the console",
+                            type: "loading",
+                        });
+                    },
                 })}
             >
                 {props.children}
@@ -65,6 +83,11 @@ export const AddButton: Component<Props> = (props: Props) => {
                     </div>
                 </div>
             )}
+            <div {...toastApi().getGroupProps({ placement: "top" })}>
+                <For each={toastApi().toasts}>
+                    {(actor) => <ToastItem actor={actor} />}
+                </For>
+            </div>
         </div>
     );
 };
