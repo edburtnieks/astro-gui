@@ -8,6 +8,7 @@ import {
     readFileSync,
     writeFileSync,
 } from "fs";
+import { readdir } from "fs/promises";
 import {
     DIRECTORY_ASSETS,
     DIRECTORY_COMPONENTS,
@@ -58,6 +59,25 @@ const copyTemplate = ({
     copyFileSync(from, to);
 };
 
+const copyAllFilesInDirectory = async ({
+    from,
+    to,
+    options,
+}: {
+    from: string;
+    to: string;
+    options?: { replace: boolean };
+}) => {
+    const files = await readdir(from);
+    files.forEach((file) => {
+        copyTemplate({
+            from: `${from}/${file}`,
+            to: `${to}/${file}`,
+            options,
+        });
+    });
+};
+
 export const createDirectoryStructure = (dir: string) => {
     if (existsSync(dir)) {
         return;
@@ -76,6 +96,16 @@ export const parseDataContent = async (
     ).toString();
     const parsedContent = await cb(content);
     writeFileSync(`${DIRECTORY_DATA(config)}/${file}`, parsedContent);
+};
+
+export const copyAllAssetTemplates = ({ config }: { config: AstroConfig }) => {
+    copyAllFilesInDirectory({
+        from: TEMPLATES_ASSETS(config),
+        to: DIRECTORY_ASSETS(config),
+        options: {
+            replace: true,
+        },
+    });
 };
 
 export const copyAssetTemplate = ({
