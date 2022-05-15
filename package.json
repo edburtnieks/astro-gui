@@ -1,5 +1,5 @@
 {
-    "name": "astro-dashboard-ui",
+    "name": "astro-gui",
     "version": "0.0.39",
     "description": "Dashboard UI for Astro",
     "type": "module",

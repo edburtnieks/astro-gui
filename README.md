@@ -96,18 +96,18 @@ Manage your [Astro](https://astro.build) project using graphical interface. Insp
 
 6. Currently you have to start the server using `--experimental-integrations` flag
 
-**package.json**
+    **package.json**
 
-```json
-{
-    // ...
-    "scripts": {
+    ```json
+    {
         // ...
-        "dev": "astro dev --experimental-integrations",
-        "start": "astro dev --experimental-integrations",
-    },
-}
-```
+        "scripts": {
+            // ...
+            "dev": "astro dev --experimental-integrations",
+            "start": "astro dev --experimental-integrations",
+        },
+    }
+    ```
 
 ## Getting started
 
