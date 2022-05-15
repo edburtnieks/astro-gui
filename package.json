@@ -1,6 +1,6 @@
 {
     "name": "astro-gui",
-    "version": "0.0.39",
+    "version": "0.0.40",
     "description": "Dashboard UI for Astro",
     "type": "module",
     "main": "./dist/index.js",
