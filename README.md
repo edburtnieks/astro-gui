@@ -168,3 +168,16 @@ The dashboard UI is built using Astro itself. That means all the files making up
         └── astro-gui
             └── integrations.astro
 ```
+
+## What comes after the hackathon
+
+There are a lot of possibilities for which direction this project could go, what features could be supported. Sky really is the limit here. Some example that come to mind:
+
+* `Pages` section for managing pages of the project
+* `API routes` section for managing API routes of the SSR project
+* Design System section with components
+* Automatic code generator for boilerplate stuff (components, layouts, pages, API routes etc.)
+* Project configuration, creation, updating, managing from within the GUI
+* Lighthouse report integration (similar to what Netlify introduced)
+* One-click deployments
+* **The GUI dashboard should be extensible and modifiable without too much opinions**
